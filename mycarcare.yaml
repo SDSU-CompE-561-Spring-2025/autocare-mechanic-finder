@@ -38,7 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
+                $ref: '#/components/schemas/login'
   /user/login:
     post:
       tags:
@@ -49,20 +49,20 @@ paths:
         content:
           application/json:
             schema:
-                $ref: '#/components/schemas/login'
+                $ref: '#/components/schemas/user'
       responses:
         200:
           description: Login successful
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/token'
+                $ref: '#/components/schemas/login'
         401:
           description: Login failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
+                $ref: '#/components/schemas/login'
   /user/verify/{verification_code}:
     post:
       tags:
@@ -82,13 +82,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/token'
+                $ref: '#/components/schemas/login'
         401:
           description: Verification failed
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
+                $ref: '#/components/schemas/login'
   /user/update:
     put:
       tags:
@@ -114,7 +114,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'  
+                $ref: '#/components/schemas/login'  
   /user/info/{username}:
     get:
       tags:
@@ -180,7 +180,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
+                $ref: '#/components/schemas/login'
   /car/update:
     put:
       tags:
@@ -206,7 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
+                $ref: '#/components/schemas/login'
   /car/info/{car_id}:
     get:
       tags:
@@ -354,15 +354,32 @@ components:
           example: 'The Last Oil Change was on this date: 12/24/24'
         Airfilter:
           type: string
-          example: 'The Last Oil Change was on this date: 12/24/24'
+          example: 'The Last Filter Change was on this date: 12/24/24'
         created_at:
           type: string
           example: 'This was created at 12/24/24, 7:59pm'
           
     login:
       type: object
-    error:
-      type: object
-    token:
-      type: object
-      
+      properties:
+        Token_Id:
+          type: integer
+          format: int32
+          example: '1001'
+        user_Id:
+          type: integer
+          format: int32
+          example: '1001'
+        Auth: 
+          type: boolean
+          example: 'true / false'
+        Error_Type:
+          type: string
+          example: '400'
+        Error_message:
+          type: string
+          example: "Invalid login"
+        
+        created_at:
+          type: string
+          example: 'This was created at 12/24/24, 7:59pm'
