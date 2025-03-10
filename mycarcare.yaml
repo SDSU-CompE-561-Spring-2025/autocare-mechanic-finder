@@ -13,6 +13,9 @@ tags:
   
   - name: maps
     description: Google Maps API
+    
+  - name: autoparts
+    description: Autoparts Search API
 
 paths:
   /user/register:
@@ -297,6 +300,38 @@ paths:
           description: Success
         400:
           description: Invalid Argument
+  /autoparts/search:
+    get:
+      tags:
+        - autoparts
+      summary: Searches for available autoparts
+      operationId: partSearch
+      parameters:
+        - name: year
+          in: query
+          schema: 
+            type: integer
+        - name: make
+          in: query
+          schema: 
+            type: string
+        - name: model
+          in: query
+          schema: 
+            type: string
+        - name: trim
+          in: query
+          schema: 
+            type: string
+        - name: part_number
+          in: query
+          schema: 
+            type: string
+      responses:
+        200:
+          description: Success
+        422:
+          description: Error
 
 components:
   schemas:
