@@ -338,6 +338,10 @@ components:
     user:
       type: object
       properties:
+        userId:
+          type: integer
+          format: int32
+          example: '1001'
         username:
           type: string
           example: 'testuser'
