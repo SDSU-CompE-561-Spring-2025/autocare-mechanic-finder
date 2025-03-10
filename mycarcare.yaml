@@ -2,7 +2,13 @@ openapi: 3.0.3
 info:
   title: My Car Care
   description: |-
-    -Website Description-
+    The main function of this website is to have a place where a user can register their 
+    cars, keep track of auto information, find auto shops, and find necessary car parts 
+    and information with ease. There will be a user registration, car registration for the 
+    users, a main dashboard to display the user’s cars and basic information, a page for 
+    each car with more specific information, a search for car parts, and a separate page for 
+    auto shops. We will be utilizing an email verification system for user accounts, autopart 
+    apis for the autopart searches, and google maps api for auto shops.
   version: 0.0.1
 tags:
   - name: user
