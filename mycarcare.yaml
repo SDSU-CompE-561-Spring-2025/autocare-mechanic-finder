@@ -13,9 +13,6 @@ tags:
   
   - name: maps
     description: Google Maps API
-    
-  - name: autoparts
-    description: Autoparts Search API
 
 paths:
   /user/register:
@@ -170,14 +167,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/car'
+              $ref: '#/components/schemas/Car'
       responses:
         200:
           description: Successfully added car
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/car'
+                $ref: '#/components/schemas/Car'
         422:
           description: Error
           content:
@@ -194,14 +191,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/car'
+              $ref: '#/components/schemas/Car'
       responses:
         200:
           description: Successfully updated car
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/car'
+                $ref: '#/components/schemas/Car'
         404:
           description: Car not found
         422:
@@ -230,7 +227,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/car'
+                $ref: '#/components/schemas/Car'
         404:
           description: Car not found
   /car/garage/{username}:
@@ -254,7 +251,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/car'
+                  $ref: '#/components/schemas/Car'
         404:
           description: User not found
   /car/delete/{car_id}:
@@ -300,45 +297,13 @@ paths:
           description: Success
         400:
           description: Invalid Argument
-  /autoparts/search:
-    get:
-      tags:
-        - autoparts
-      summary: Searches for available autoparts
-      operationId: partSearch
-      parameters:
-        - name: year
-          in: query
-          schema: 
-            type: integer
-        - name: make
-          in: query
-          schema: 
-            type: string
-        - name: model
-          in: query
-          schema: 
-            type: string
-        - name: trim
-          in: query
-          schema: 
-            type: string
-        - name: part_number
-          in: query
-          schema: 
-            type: string
-      responses:
-        200:
-          description: Success
-        422:
-          description: Error
 
 components:
   schemas:
     user:
       type: object
       properties:
-        userId:
+        user_Id:
           type: integer
           format: int32
           example: '1001'
@@ -354,11 +319,50 @@ components:
         password:
           type: string
           example: 'secret1234'
+        cars:
+          type: string
+          example: 'Car 1'
+        created_at:
+          type: string
+          example: 'This was created at 12/24/24, 7:59pm'
+        
+        
+    Car:
+      type: object
+      properties:
+        car_id:
+          type: integer
+          format: int32
+          example: '1001'
+        cars:
+          type: string
+          example: 'Sheila'
+        BrandName:
+          type: string
+          example: 'Chevrolet'
+        Model:
+          type: string
+          example: 'Chevelle Z16'
+        Year:
+          type: integer
+          example: '1965'
+        Trim:
+          type: string
+          example: 'New Motor'
+        LastOilChange:
+          type: string
+          example: 'The Last Oil Change was on this date: 12/24/24'
+        Airfilter:
+          type: string
+          example: 'The Last Oil Change was on this date: 12/24/24'
+        created_at:
+          type: string
+          example: 'This was created at 12/24/24, 7:59pm'
+          
     login:
       type: object
     error:
       type: object
     token:
       type: object
-    car:
-      type: object  
+      
