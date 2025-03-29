@@ -28,17 +28,32 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
-dependencies = []
+dependencies = [
+  "fastapi[all]",
+  "pre-commit>=4.2.0",
+]
 
 [project.urls]
-Documentation = "https://github.com/SDSU-CompE-561-Spring-2025/autocare-mechanic-finder/blob/main/README.md"
+Documentation = "https://github.com/SDSU-CompE-561-Spring-2025/autocare-mechanic-finder/blob/main/README.md" # May need to be updated to the readme file withing backend folder
 Issues = "https://github.com/SDSU-CompE-561-Spring-2025/autocare-mechanic-finder/issues"
 Source = "https://github.com/SDSU-CompE-561-Spring-2025/autocare-mechanic-finder"
 
 [tool.hatch.version]
 path = "src/app/__about__.py"
 
+
+[tool.hatch.envs.default]
+# Default Environment Settings
+python = "python3.12"
+installer = "uv"
+path = ".venv"
+
+[tool.hatch.envs.default.scripts]
+# Default Environment Scripts for development and database operations
+dev = "fastapi dev {args:src/app/main.py}"
+
 [tool.hatch.envs.types]
+installer = "uv"
 extra-dependencies = [
   "mypy>=1.0.0",
 ]
