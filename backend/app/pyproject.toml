@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "app"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Giovanni Lopez", email = "giolopezunam@gmail.com"},
+  { name = "John Choi"}, # Missing Email
+  { name = "Zavier Ayarza"}, # Missing Email
+  { name = "Nicholas Woodson"}, # Missing Email
+  { name = "Nathan M"}, # Missing Email
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/SDSU-CompE-561-Spring-2025/autocare-mechanic-finder/blob/main/README.md"
+Issues = "https://github.com/SDSU-CompE-561-Spring-2025/autocare-mechanic-finder/issues"
+Source = "https://github.com/SDSU-CompE-561-Spring-2025/autocare-mechanic-finder"
+
+[tool.hatch.version]
+path = "src/app/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/app tests}"
+
+[tool.coverage.run]
+source_pkgs = ["app", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/app/__about__.py",
+]
+
+[tool.coverage.paths]
+app = ["src/app", "*/app/src/app"]
+tests = ["tests", "*/app/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
