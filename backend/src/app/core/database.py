@@ -4,6 +4,8 @@ from sqlalchemy.orm import sessionmaker
 
 from .config import settings
 
+### taken from ugur's db.py
+
 SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
@@ -11,3 +13,10 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+def connect_db():
+    db = SessionLocal()
+    try: 
+        yield db
+    except:
+        db.close()
