@@ -15,5 +15,9 @@ My Car Care is a website that's purpose is to make autocare simple and convenien
 ### Autoshop Finder
 #### - The user can enter their location, and the website will show the nearby accessible autoshops when in need.
 
-## How to Download!
+## How to Setup and Run
 
+### - Open file
+### - Right click on backend and open new terminal
+### - Command uv sync
+### - Hatch run dev
