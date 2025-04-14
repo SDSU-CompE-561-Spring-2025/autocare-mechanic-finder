@@ -1,15 +1,17 @@
+from datetime import timedelta
+
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from datetime import timedelta
 
+# Import user services
+import app.services.user as user_service
+from app.core.auth import EXPIRE_TIME, create_access_token
 from app.dependencies import get_db
-from app.core.auth import EXPIRE_TIME, create_access_token, verify_token
+
 # Import user schemas
 from app.schemas.token import Token
 from app.schemas.users import UserCreate, UserResponse
-# Import user services
-import app.services.user as user_service
 
 router = APIRouter()
 
@@ -35,7 +37,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),
 def verify_email(verification_code: str):
     return {"message": "Email verified successfully"}
 
-@router.pull("/update") # Creates /update endpoint in the API
+@router.put("/update") # Creates /update endpoint in the API
 def update_user(user: UserResponse, db: Session = Depends(get_db)):
     updated_user = user_service.update_user(db=db, user=user)
     return updated_user
