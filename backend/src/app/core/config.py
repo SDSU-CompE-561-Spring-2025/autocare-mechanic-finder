@@ -8,6 +8,7 @@ load_dotenv()
 
 class Settings(BaseSettings):
     DATABASE_URL: str
+    PRIVATE_KEY: str
 
 
 @lru_cache
