@@ -21,7 +21,7 @@ class CarBase(BaseModel):
 class CarCreate(CarBase):
     pass
 
-class CategoryResponse(CarBase):
+class CarResponse(CarBase):
     id: int
 
     class Config:

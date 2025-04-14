@@ -5,16 +5,18 @@ from datetime import timedelta
 
 from app.dependencies import get_db
 # Import user schemas
+from app.schemas.token import Token, TokenData
+from app.schemas.users import UserCreate, UserResponse
 # Import user services
 
 router = APIRouter()
 
-@router.post("/register", response_model = UserResponseFROMSCHEMA) # Creates /register endpoint in the API
-def register_user(user: UserCreateFROMSCHEMA, db: Session = Depends(get_db)):
+@router.post("/register", response_model = UserResponse) # Creates /register endpoint in the API
+def register_user(user: UserCreate, db: Session = Depends(get_db)):
     new_user = user_service.create_user(db=db, user=user)
     return new_user
 
-@router.post("/login", response_model = TokenFROMSCHEMA) # Creates /login endpoint in the API
+@router.post("/login", response_model = Token) # Creates /login endpoint in the API
 async def login(form_data: OAuth2PasswordRequestForm = Depends(),
                 db: Session = Depends(get_db)):
     user = user_service.authenticate_user(db=db, username=form_data.username,
@@ -32,7 +34,7 @@ def verify_email(verification_code: str):
     return {"message": "Email verified successfully"}
 
 @router.pull("/update") # Creates /update endpoint in the API
-def update_user(user: UserUpdateFROMSCHEMA, db: Session = Depends(get_db)):
+def update_user(user: UserResponse, db: Session = Depends(get_db)):
     updated_user = user_service.update_user(db=db, user=user)
     return updated_user
 
