@@ -5,12 +5,13 @@ from app.dependencies import get_db
 # Import car schemas
 from app.schemas.car import CarType, CarCreate, CarResponse
 # Import car services
+import app.services.car as car_service
 
 router = APIRouter()
 
 @router.post("/add")  # Creates /add endpoint in the API
 def add_car(car: CarCreate, db: Session = Depends(get_db)):
-    new_car = car_service.create_car(db=db, car=car)
+    new_car = car_service.add_car(db=db, car=car)
     return new_car
 
 @router.put("/update")  # Creates /update endpoint in the API
@@ -20,14 +21,14 @@ def update_car(car_id: int, car: CarResponse, db: Session = Depends(get_db)):
 
 @router.get("/info/{car_id}", response_model = CarType)  # Creates /info/{car_id} endpoint in the API
 def read_car_info(car_id: int, db: Session = Depends(get_db)):
-    car = car_service.get_car(db=db, car_id=car_id)
+    car = car_service.get_car_info(db=db, car_id=car_id)
     if not car:
         raise HTTPException(status_code=404, detail="Car not found")
     return car
 
 @router.get("/garage/{username}") # Creates /garage/{username} endpoint in the API
 def read_user_garage(username: str, db: Session = Depends(get_db)):
-    cars = car_service.get_user_cars(db=db, username=username)
+    cars = car_service.get_user_garage(db=db, username=username)
     return cars
 
 @router.delete("/delete/{car_id}")  # Creates /delete/{car_id} endpoint in the API

@@ -9,18 +9,19 @@ from app.core.auth import EXPIRE_TIME, create_access_token, verify_token
 from app.schemas.token import Token
 from app.schemas.users import UserCreate, UserResponse
 # Import user services
+import app.services.user as user_service
 
 router = APIRouter()
 
 @router.post("/register", response_model = UserResponse) # Creates /register endpoint in the API
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    new_user = user_service.create_user(db=db, user=user)
+    new_user = user_service.register_user(db=db, user=user)
     return new_user
 
 @router.post("/login", response_model = Token) # Creates /login endpoint in the API
 async def login(form_data: OAuth2PasswordRequestForm = Depends(),
                 db: Session = Depends(get_db)):
-    user = user_service.authenticate_user(db=db, username=form_data.username,
+    user = user_service.verify_user(db=db, username=form_data.username,
                                                     password=form_data.password)
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials",
