@@ -1,28 +1,30 @@
 from pydantic import BaseModel
+from datetime import datetime
 from enum import Enum
 
 class CarType(str, Enum):
-    car = "car"
-    year = 2024
-    mileage = 300000
+    Cars = "car"
+    Year = 2024
+    Mileage = 300000
 
 
 class CarBase(BaseModel):
-    car_name: str
-    Brand_type: CarType
-    mile_age: int
-    year: int
+    Cars: str
+    BrandName: CarType
+    Mileage: int
+    Year: int
     Trim: str
-    Last_Oil_Change: str
+    LastOilChange: str
     AirFilter: str
 
 
 
 class CarCreate(CarBase):
-    pass
+    Car_id: int
+    created_at: datetime
 
 class CarResponse(CarBase):
-    id: int
+    Car_id: int
 
     class Config:
         from_attributes = True

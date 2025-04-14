@@ -12,10 +12,10 @@ class UserCreate(UserBase):
     password: str
 
 class User(UserBase):
-    id: int = Field(..., gt=0)
+    user_id: int = Field(..., gt=0)
     username: str
     State: str
-    cars: str
+    Cars: str
     email: EmailStr
     created_at: datetime
 
@@ -24,7 +24,7 @@ class User(UserBase):
 
 
 class UserResponse(BaseModel):
-    id: int
+    user_id: int
     username: str
     email: EmailStr
     created_at: datetime
