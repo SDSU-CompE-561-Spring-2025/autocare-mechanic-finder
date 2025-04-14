@@ -5,7 +5,6 @@ from app.dependencies import get_db
 # Import car schemas
 from app.schemas.car import CarType, CarCreate, CarResponse
 # Import car services
-# Import auth from core
 
 router = APIRouter()
 

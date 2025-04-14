@@ -4,8 +4,9 @@ from sqlalchemy.orm import Session
 from datetime import timedelta
 
 from app.dependencies import get_db
+from app.core.auth import EXPIRE_TIME, create_access_token, verify_token
 # Import user schemas
-from app.schemas.token import Token, TokenData
+from app.schemas.token import Token
 from app.schemas.users import UserCreate, UserResponse
 # Import user services
 
@@ -24,8 +25,8 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials",
                             headers={"WWW-Authenticate": "Bearer"})
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRES_MINUTES_FROMCORE)
-    access_token = create_access_token_FROMCORE(data={"sub": user.username},
+    access_token_expires = timedelta(minutes=EXPIRE_TIME)
+    access_token = create_access_token(data={"sub": user.username},
                                        expires_delta = access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
