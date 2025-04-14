@@ -7,19 +7,28 @@
 
 from fastapi import HTTPException
 from datetime import datetime
-import hashlib
+from sqlalchemy.orm import Session
 
-# In-memory user storage (simulate database)
-users_db = {}
+from app.models.users import User
+from app.schemas.users import UserCreate, UserResponse
 
-def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
 
-def register_user(user_data: dict) -> dict:
-    username = user_data["username"]
-    if username in users_db:
-        raise HTTPException(status_code=422, detail="Username already exists")
+# Search if user and/or email exist in the database (References Professor's backend))
+def get_user_by_username(db: Session, username: str):
+    return db.query(User).filter(User.username == username).first()
 
+def get_user_by_email(db: Session, email: str):
+    return db.query(User).filter(User.email == email).first()
+
+def register_user(db: Session, user_data: UserCreate):
+    if(get_user_by_username(db, user_data.username) or get_user_by_email(db, user_data.email)):
+        raise HTTPException(status_code=400, detail="Username or email already exists")
+    db_user = User(
+        username=user_data.username,
+        email=user_data.email,
+        password=user_data.password,  # Password should be hashed
+        created_at=datetime.now()
+    )
     user_data["password"] = hash_password(user_data["password"])
     user_data["created_at"] = datetime.now().isoformat()
     users_db[username] = user_data
