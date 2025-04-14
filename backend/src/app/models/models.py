@@ -1,6 +1,6 @@
 #models
 
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Relationship
 from database import Base
 
 #Inspired by Ugar Dogan's model.py example
@@ -14,6 +14,9 @@ class User(Base):
     State = Column(String)
     Cars = Column(String)
     created_at = Column(DateTime, default=DateTime.utcnow)
+
+    cars = Relationship("Car", back_populates="user")
+    login = Relationship("Login", back_populates="user")
 
 class Car(Base):
     __tablename__ = 'cars'
@@ -29,6 +32,8 @@ class Car(Base):
     AirFilter = Column(String)
     created_at = Column(DateTime, defualt=DateTime.utcnow)
 
+    user = Relationship("User", back_populates="cars")
+
 class Login(Base):
 
     Token_Id = Column(String, primary_key=True, AUTO_INCREMENT=True)
@@ -37,4 +42,7 @@ class Login(Base):
     Error_type = Column(String)
     Error_message = Column(String)
     created_at = Column(DateTime, default=DateTime.utcnow)
+
+    user = Relationship("User", back_populates="login")
+
  
