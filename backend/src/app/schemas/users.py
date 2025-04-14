@@ -5,15 +5,17 @@ from pydantic import BaseModel, constr, EmailStr, Field
 
 
 class UserBase(BaseModel):
-    username: constr(min_length= 3, max_length= 32, pattern=r"^[a-zA-Z0-9_]+$")
+    username: str
     email: EmailStr
 
 class UserCreate(UserBase):
-    password: constr(min_length= 3, max_length= 32, pattern=r"^[a-zA-Z0-9_]+$")
+    password: str
 
 class User(UserBase):
     id: int = Field(..., gt=0)
-    username: constr(min_length= 3, max_length= 32, pattern=r"^[a-zA-Z0-9_]+$")
+    username: str
+    State: str
+    cars: str
     email: EmailStr
     created_at: datetime
 
