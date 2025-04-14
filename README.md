@@ -18,6 +18,6 @@ My Car Care is a website that's purpose is to make autocare simple and convenien
 ## How to Setup and Run
 
 ### - Open file
-### - Right click on backend and open new terminal
+### - Right click on backend and open new intergrated terminal
 ### - Command uv sync
-### - Hatch run dev
+### - Hatch run dev in terminal
