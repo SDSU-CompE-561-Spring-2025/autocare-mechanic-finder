@@ -18,7 +18,6 @@ def register_user(db: Session, user_data: UserCreate):
         raise HTTPException(status_code=400, detail="Username or email already exists")
 
     hash_password = get_pw_hash(user_data.password)
-    user_data["created_at"] = datetime.now().isoformat()
     db_user = User(
         username=user_data.username,
         email=user_data.email,
@@ -28,6 +27,7 @@ def register_user(db: Session, user_data: UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    db.close()
     return db_user
 
 def login_user(db: Session, username: str, password: str):
@@ -38,25 +38,28 @@ def login_user(db: Session, username: str, password: str):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return user
 
-def verify_user(verification_code: str):
+def verify_user(db: Session, verification_code: str):
     if verification_code == "validcode123":  # Mock validation
         return {"message": "User verified successfully"}
     raise HTTPException(status_code=401, detail="Verification failed")
 
 def update_user(db: Session, user_data: UserCreate):
-    if username not in users_db:
+    if user_data.username not in db:
         raise HTTPException(status_code=404, detail="User not found")
 
-    users_db[username].update(user_data)
-    return users_db[username]
+    user_record = db.query(users).filter_by(username=user_data.username).first()
+    user_record.password = get_pw_hash(user_data.password)
+    user_record.state = user_data.state
+    db.commit()
+    return db[user_data.username]
 
-def get_user_info(username: str):
-    if username not in users_db:
+def get_user_info(db: Session, username: str):
+    if username not in db:
         raise HTTPException(status_code=404, detail="User not found")
-    return users_db[username]
+    return db[username]
 
-def delete_user(username: str):
-    if username not in users_db:
+def delete_user(db: Session, username: str):
+    if username not in db:
         raise HTTPException(status_code=404, detail="User not found")
-    del users_db[username]
+    del db[username]
     return {"message": f"User '{username}' deleted successfully"}

@@ -16,7 +16,7 @@ def verify_pw(defPwd: str, hashedPwd: str):
 
 
 def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+    return db.query(models.User).filter(models.User.user_id == user_id).first()
 
 
 def get_user_by_email(db: Session, email: str):
@@ -40,12 +40,12 @@ def create_user(db: Session, user: UserCreate):
 # need to adjust based on database models format
 
 
-def get_service(db: Session, service_id: int):
-    return db.query(models.Service).filter(models.Service.id == service_id).first()
+#def get_service(db: Session, service_id: int):
+#    return db.query(models.Service).filter(models.Service.id == service_id).first()
 
 
-def get_services(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Service).offset(skip).limit(limit).all()
+#def get_services(db: Session, skip: int = 0, limit: int = 100):
+#    return db.query(models.Service).offset(skip).limit(limit).all()
 
 
 #def create_service(db: Session, service: schemas.ServiceCreate):

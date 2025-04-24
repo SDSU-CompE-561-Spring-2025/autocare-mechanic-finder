@@ -17,7 +17,7 @@ router = APIRouter()
 
 @router.post("/register", response_model = UserResponse) # Creates /register endpoint in the API
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
-    new_user = user_service.register_user(db=db, user=user)
+    new_user = user_service.register_user(db=db, user_data=user)
     return new_user
 
 @router.post("/login", response_model = Token) # Creates /login endpoint in the API
@@ -34,7 +34,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/verify/{verification_code}") # Creates /verify/{verification_code} endpoint in the API
-def verify_email(verification_code: str):
+def verify_email(verification_code: str, db: Session = Depends(get_db)):
     return {"message": "Email verified successfully"}
 
 @router.put("/update") # Creates /update endpoint in the API
@@ -43,12 +43,12 @@ def update_user(user: UserResponse, db: Session = Depends(get_db)):
     return updated_user
 
 @router.get("/info/{username}") # Creates /info/{username} endpoint in the API
-def read_users_me(username: str):
+def read_users_me(username: str, db: Session = Depends(get_db)):
     return {"message": "User details returned successfully"}
 
 @router.delete("/delete/{username}") # Creates /delete/{username} endpoint in the API
-def delete_user(username: str, db: Session = Depends(get_db)):
-    deleted_user = user_service.delete_user(db=db, username=username)
+def delete_user(username: str):
+    deleted_user = user_service.delete_user(Session = Depends(get_db), username=username)
     if not deleted_user:
         raise HTTPException(status_code=404, detail="User not found")
     return {"message": "User deleted successfully"}

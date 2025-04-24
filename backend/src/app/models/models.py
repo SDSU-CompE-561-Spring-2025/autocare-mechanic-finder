@@ -1,6 +1,6 @@
 #models
 from datetime import datetime, UTC
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 
@@ -8,7 +8,7 @@ from app.core.database import Base
 class User(Base):
     __tablename__ = 'users'
 
-    user_id = Column(Integer, primary_key=True, AUTO_INCREMENT=True, nullable=False, index=True)
+    user_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
     username = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
@@ -23,7 +23,7 @@ class Car(Base):
     __tablename__ = 'cars'
 
     Car_id = Column(Integer, primary_key=True, index=True)
-    Cars = Column(String, foreign_key=True, AUTO_INCREMENT=True)
+    Cars = Column(String, ForeignKey(User.Cars), autoincrement=True) #ForeignKey=True      #Syntax: ForeignKey(user.keyitem)
     BrandName = Column(String)
     Model = Column(String)
     Year = Column(Integer)
@@ -38,8 +38,8 @@ class Car(Base):
 class Login(Base):
     __tablename__ = 'Tokens'
 
-    Token_Id = Column(String, primary_key=True, AUTO_INCREMENT=True)
-    user_id = Column(Integer,foreign_key=True,nullable=True)
+    Token_Id = Column(String, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey(User.user_id), nullable=True) 
     Auth = Column(Integer, nullable=True)
     Error_type = Column(String)
     Error_message = Column(String)
