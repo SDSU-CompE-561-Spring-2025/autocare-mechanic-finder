@@ -4,8 +4,8 @@ from datetime import datetime
 #taken for reference from prof demo
 
 class Token(BaseModel):
-    Auth: str
-    Token_Id: str
+    access_token: str
+    token_type: str
 
 
 class TokenData(BaseModel):
