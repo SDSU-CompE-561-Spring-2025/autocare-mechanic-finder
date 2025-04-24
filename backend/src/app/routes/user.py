@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 import app.services.user as user_service
 from app.core.auth import EXPIRE_TIME, create_access_token
 from app.dependencies import get_db
-from app.core.crud import get_user
+from app.core.crud import get_user_by_username
 
 # Import user schemas
 from app.schemas.token import Token
@@ -46,7 +46,7 @@ def update_user(user: UserResponse, db: Session = Depends(get_db)):
 
 @router.get("/info/{username}") # Creates /info/{username} endpoint in the API
 def read_users_me(username: str, db: Session = Depends(get_db)):
-    user = get_user(db=db, username=username)
+    user = get_user_by_username(db=db, username=username)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user

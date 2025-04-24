@@ -11,10 +11,10 @@ from sqlalchemy.orm import Session
 
 from app.models.models import User
 from app.schemas.users import UserCreate, UserResponse
-from app.core.crud import get_pw_hash, verify_pw, get_user, get_user_by_email
+from app.core.crud import get_pw_hash, verify_pw, get_user_by_username, get_user_by_email
 
 def register_user(db: Session, user_data: UserCreate):
-    if(get_user(db, user_data.username) or get_user_by_email(db, user_data.email)):
+    if(get_user_by_username(db, user_data.username) or get_user_by_email(db, user_data.email)):
         raise HTTPException(status_code=400, detail="Username or email already exists")
 
     hash_password = get_pw_hash(user_data.password)
@@ -31,7 +31,9 @@ def register_user(db: Session, user_data: UserCreate):
     return db_user
 
 def login_user(db: Session, username: str, password: str):
-    user = get_user(db, username)
+    user = get_user_by_username(db, username)
+    if not user:
+        user = get_user_by_email(db, username)
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     if not verify_pw(password, user.password):

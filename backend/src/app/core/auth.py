@@ -8,7 +8,7 @@ ALGO = "RS256"
 EXPIRE_TIME = 25
 
 
-def create_access_token(sub, expires: Optional[timedelta] = None):
+def create_access_token(sub: dict, expires: Optional[timedelta] = None):
     # generate jwt access token
     if expires:
         expire = datetime.utcnow() + EXPIRE_TIME

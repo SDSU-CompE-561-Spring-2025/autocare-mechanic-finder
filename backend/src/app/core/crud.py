@@ -15,7 +15,7 @@ def verify_pw(defPwd: str, hashedPwd: str):
     return pwd.verify(defPwd, hashedPwd)
 
 
-def get_user(db: Session, username: int):
+def get_user_by_username(db: Session, username: int):
     return db.query(models.User).filter(models.User.username == username).first()
 
 
