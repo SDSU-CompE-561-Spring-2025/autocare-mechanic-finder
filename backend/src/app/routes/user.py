@@ -21,7 +21,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     new_user = user_service.register_user(db=db, user_data=user)
     return new_user
 
-@router.post("/login", response_model = Token) # Creates /login endpoint in the API
+@router.post("/token", response_model = Token) # Creates /login endpoint in the API
 async def login(form_data: OAuth2PasswordRequestForm = Depends(),
                 db: Session = Depends(get_db)):
     user = user_service.login_user(db=db, username=form_data.username,
@@ -32,7 +32,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),
                             headers={"WWW-Authenticate": "Bearer"})
     access_token_expires = timedelta(minutes=EXPIRE_TIME)
     access_token = create_access_token(data={"sub": user.username},
-                                       expires_delta = access_token_expires)
+                                       expires = access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/verify/{verification_code}") # Creates /verify/{verification_code} endpoint in the API

@@ -4,18 +4,18 @@ from typing import Optional
 from app.core.config import settings
 
 PRIVATE_KEY = settings.PRIVATE_KEY
-ALGO = "RS256"
+ALGO = "HS256"
 EXPIRE_TIME = 25
 
 
-def create_access_token(sub: dict, expires: Optional[timedelta] = None):
+def create_access_token(data: dict, expires: Optional[timedelta] = None):
     # generate jwt access token
     if expires:
-        expire = datetime.utcnow() + EXPIRE_TIME
+        expire = datetime.utcnow() + timedelta(EXPIRE_TIME)
     else:
         expire = datetime.utcnow() + timedelta(minutes=EXPIRE_TIME)
 
-    encode = {"exp": expire, "sub": str(sub)}
+    encode = {"exp": expire, "sub": str(data)}
     encodeToJWT = jwt.encode(encode, PRIVATE_KEY, algorithm=ALGO)
     return encodeToJWT
 
