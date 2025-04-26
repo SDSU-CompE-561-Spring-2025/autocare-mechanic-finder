@@ -28,9 +28,9 @@ def create_access_token(data: dict, expires: timedelta | None = None):
 
 def verify_token(token: str):
     try:
-        print(token)
+        #print(token)
         payload = jwt.decode(token, PRIVATE_KEY, algorithms=ALGO)
-        print(payload)
+        #print(payload)
         username: str = payload.get("sub")
         if username is None:
             raise HTTPException(status_code=401, detail="Invalid token")
