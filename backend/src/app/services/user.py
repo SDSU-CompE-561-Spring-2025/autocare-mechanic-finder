@@ -27,7 +27,6 @@ def register_user(db: Session, user_data: UserCreate):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    db.close()
     return db_user
 
 def login_user(db: Session, username: str, password: str):

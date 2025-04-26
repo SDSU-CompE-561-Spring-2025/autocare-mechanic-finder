@@ -1,3 +1,5 @@
+from fastapi.security import OAuth2PasswordBearer
+from passlib.context import CryptContext
 import jwt
 from datetime import datetime, timedelta
 from typing import Optional
@@ -7,6 +9,7 @@ PRIVATE_KEY = settings.PRIVATE_KEY
 ALGO = "HS256"
 EXPIRE_TIME = 25
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
 def create_access_token(data: dict, expires: Optional[timedelta] = None):
     # generate jwt access token
