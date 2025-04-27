@@ -37,9 +37,10 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),
                                        expires = expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
+#find how to send email verification code to user
 @router.post("/verify/{verification_code}") # Creates /verify/{verification_code} endpoint in the API
 def verify_email(verification_code: str, db: Session = Depends(get_db)):
-    return {"message": "Email verified successfully"}
+    raise HTTPException(status_code=400, detail="Email verification is not implemented yet.")
 
 @router.put("/update") # Creates /update endpoint in the API
 def update_user_info(new_info: UserUpdate, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
@@ -72,8 +73,9 @@ async def read_me(token: str = Depends(oauth2_scheme),
     return user
     
 @router.delete("/delete/{username}") # Creates /delete/{username} endpoint in the API
-def delete_user(username: str):
-    deleted_user = user_service.delete_user(Session = Depends(get_db), username=username)
-    if not deleted_user:
+def deletes_user(username: str, db: Session = Depends(get_db)):
+    user = user_service.get_user_by_username(db=db, username=username)
+    if not user:
         raise HTTPException(status_code=404, detail="User not found")
+    user_service.delete_user(db=db, user=user)
     return {"message": "User deleted successfully"}

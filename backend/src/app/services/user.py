@@ -57,18 +57,10 @@ def update_user(db: Session, new_data: UserUpdate, user_data: User):
     db.refresh(user_data)
     return user_data
 
+def delete_user(db: Session, user: User):
+    db.delete(user)
+    db.commit()
+    return True
+
 def verify_user(db: Session, verification_code: str):
-    if verification_code == "validcode123":  # Mock validation
-        return {"message": "User verified successfully"}
-    raise HTTPException(status_code=401, detail="Verification failed")
-
-def get_user_info(db: Session, username: str):
-    if username not in db:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db[username]
-
-def delete_user(db: Session, username: str):
-    if username not in db:
-        raise HTTPException(status_code=404, detail="User not found")
-    del db[username]
-    return {"message": f"User '{username}' deleted successfully"}
+    raise HTTPException(status_code=501, detail="Email verification not implemented")
