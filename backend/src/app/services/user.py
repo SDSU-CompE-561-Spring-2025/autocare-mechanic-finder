@@ -10,7 +10,7 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 
 from app.models.models import User
-from app.schemas.users import UserCreate, UserResponse
+from app.schemas.users import UserCreate, UserResponse, UserUpdate
 from app.core.crud import get_pw_hash, verify_pw, get_user_by_username, get_user_by_email
 
 def register_user(db: Session, user_data: UserCreate):
@@ -39,20 +39,28 @@ def login_user(db: Session, username: str, password: str):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return user
 
+def update_user(db: Session, new_data: UserUpdate, user_data: User):
+    if not verify_pw(new_data.current_password, user_data.password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    user_data.State = new_data.state if new_data.state else user_data.State
+    user_data.Cars = new_data.cars if new_data.cars else user_data.Cars
+    if new_data.update_password:
+        print("Change password is set to True")
+        if not new_data.new_password:
+            raise HTTPException(status_code=400, detail="New password is required")
+        if new_data.current_password == new_data.new_password:
+            raise HTTPException(status_code=400, detail="New password cannot be the same as current password")
+        user_data.password = get_pw_hash(new_data.new_password)
+    else:
+        print("Change password is not set to True")
+    db.commit()
+    db.refresh(user_data)
+    return user_data
+
 def verify_user(db: Session, verification_code: str):
     if verification_code == "validcode123":  # Mock validation
         return {"message": "User verified successfully"}
     raise HTTPException(status_code=401, detail="Verification failed")
-
-def update_user(db: Session, user_data: UserCreate):
-    if user_data.username not in db:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    user_record = db.query(users).filter_by(username=user_data.username).first()
-    user_record.password = get_pw_hash(user_data.password)
-    user_record.state = user_data.state
-    db.commit()
-    return db[user_data.username]
 
 def get_user_info(db: Session, username: str):
     if username not in db:

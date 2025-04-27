@@ -32,3 +32,14 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class UserUpdate(BaseModel):
+    state: str | None = None
+    cars: str | None = None
+    update_password: bool = Field(default=False)
+    new_password: str | None = None
+    current_password: str
+
+    class Config:
+        from_attributes = True

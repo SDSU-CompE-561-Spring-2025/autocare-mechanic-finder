@@ -14,7 +14,7 @@ from app.core.crud import get_user_by_username
 
 # Import user schemas
 from app.schemas.token import Token
-from app.schemas.users import UserCreate, UserResponse
+from app.schemas.users import UserCreate, UserResponse, UserUpdate
 
 router = APIRouter()
 
@@ -42,8 +42,13 @@ def verify_email(verification_code: str, db: Session = Depends(get_db)):
     return {"message": "Email verified successfully"}
 
 @router.put("/update") # Creates /update endpoint in the API
-def update_user(user: UserResponse, db: Session = Depends(get_db)):
-    updated_user = user_service.update_user(db=db, user=user)
+def update_user_info(new_info: UserUpdate, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    decoded_token = verify_token(token)
+    if decoded_token is None:
+        raise HTTPException(status_code=401, detail="Invalid token",
+                            headers={"WWW-Authenticate": "Bearer"})
+    current_user = get_user_by_username(db=db, username=decoded_token.username)
+    updated_user = user_service.update_user(db=db, new_data=new_info, user_data=current_user)
     return updated_user
 
 @router.get("/info/{username}") # Creates /info/{username} endpoint in the API
