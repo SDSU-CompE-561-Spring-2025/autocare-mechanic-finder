@@ -1,8 +1,7 @@
 from datetime import datetime
-from pydantic import BaseModel, constr, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field
 
 #referencing professors backend for user
-
 
 class UserBase(BaseModel):
     username: str
@@ -28,7 +27,6 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
     created_at: datetime
-
 
     class Config:
         from_attributes = True

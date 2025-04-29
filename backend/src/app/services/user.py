@@ -1,6 +1,3 @@
-# src/app/services/user_service.py
-
-# Nathan Morris
 # This module provides user management services including registration, login, verification, and profile management.
 # It simulates a database using an in-memory dictionary for user data storage.
 # It includes functions to register a new user, login an existing user, verify a user, update user information

@@ -22,13 +22,13 @@ class User(Base):
 class Car(Base):
     __tablename__ = 'cars'
 
-    Car_id = Column(Integer, primary_key=True, index=True)
-    Cars = Column(String, ForeignKey(User.Cars), autoincrement=True) #ForeignKey=True      #Syntax: ForeignKey(user.keyitem)
+    car_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
+    cars = Column(Integer, ForeignKey(User.user_id), nullable = False) #ForeignKey=True      #Syntax: ForeignKey(user.keyitem)
     BrandName = Column(String)
-    Model = Column(String)
-    Year = Column(Integer)
-    Mileage = Column(Integer)
-    Trim = Column(String)
+    model = Column(String)
+    year = Column(Integer)
+    mileage = Column(Integer)
+    trim = Column(String)
     LastOilChange = Column(String)
     AirFilter = Column(String)
     created_at = Column(DateTime, default=datetime.now(UTC))

@@ -26,7 +26,6 @@ def get_user_by_email(db: Session, email: str):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
-
 def create_user(db: Session, user: UserCreate):
     hashed_password = get_pw_hash(user.password)
     db_user = models.User(email=user.email, hashed_password=hashed_password)
@@ -34,23 +33,3 @@ def create_user(db: Session, user: UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
-
-# crud stuff
-
-# need to adjust based on database models format
-
-
-#def get_service(db: Session, service_id: int):
-#    return db.query(models.Service).filter(models.Service.id == service_id).first()
-
-
-#def get_services(db: Session, skip: int = 0, limit: int = 100):
-#    return db.query(models.Service).offset(skip).limit(limit).all()
-
-
-#def create_service(db: Session, service: schemas.ServiceCreate):
-#    db_service = models.Service(**service.dict())
-#    db.add(db_service)
-#    db.commit()
-#    db.refresh(db_service)
-#    return db_service
