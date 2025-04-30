@@ -10,14 +10,14 @@ repos:
       hooks:
           - id: check-added-large-files
           - id: check-docstring-first
-          #- id: check-executables-have-shebangs
+          - id: check-executables-have-shebangs
           - id: check-toml
           - id: check-yaml
             args: ["--unsafe"]
           - id: detect-private-key
-          #- id: end-of-file-fixer
+          - id: end-of-file-fixer
           - id: mixed-line-ending
-          #- id: trailing-whitespace
+          - id: trailing-whitespace
 
     - repo: local
       hooks:
@@ -29,10 +29,10 @@ repos:
             language: system
             files: ^src/.*\.py$
 
-          #- id: bandit
-            #name: Bandit
-            #entry: bandit
-            #args: ["-c", "pyproject.toml", "-r", "src"]
-            #types: [python]
-            #language: system
-            #pass_filenames: false
+          - id: bandit
+            name: Bandit
+            entry: bandit
+            args: ["-c", "pyproject.toml", "-r", "src"]
+            types: [python]
+            language: system
+            pass_filenames: false
