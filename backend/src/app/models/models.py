@@ -1,48 +1,50 @@
 #models
-
-from sqlalchemy import Column, Integer, String, DateTime, Relationship
-from database import Base
+from datetime import datetime, UTC
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
+from app.core.database import Base
 
 #Inspired by Ugar Dogan's model.py example
 class User(Base):
     __tablename__ = 'users'
 
-    user_id = Column(Integer, primary_key=True, AUTO_INCREMENT=True, nullable=False, index=True)
-    name = Column(String, required=True, nullable=False)
-    email = Column(String, required=True, unique=True, nullable=False)
-    password = Column(String, required=True, nullable=False)
+    user_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
+    username = Column(String, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+    password = Column(String, nullable=False)
     State = Column(String)
     Cars = Column(String)
-    created_at = Column(DateTime, default=DateTime.utcnow)
+    created_at = Column(DateTime, default=datetime.now(UTC))
 
-    cars = Relationship("Car", back_populates="user")
-    login = Relationship("Login", back_populates="user")
+    cars = relationship("Car", back_populates="user")
+    login = relationship("Login", back_populates="user")
 
 class Car(Base):
     __tablename__ = 'cars'
 
-    Car_id = Column(Integer, primary_key=True, index=True)
-    Cars = Column(String, foreign_key=True, AUTO_INCREMENT=True)
+    car_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False, index=True)
+    cars = Column(Integer, ForeignKey(User.user_id), nullable = False) #ForeignKey=True      #Syntax: ForeignKey(user.keyitem)
     BrandName = Column(String)
-    Model = Column(String)
-    Year = Column(Integer)
-    Mileage = Column(Integer)
-    Trim = Column(String)
+    model = Column(String)
+    year = Column(Integer)
+    mileage = Column(Integer)
+    trim = Column(String)
     LastOilChange = Column(String)
     AirFilter = Column(String)
-    created_at = Column(DateTime, defualt=DateTime.utcnow)
+    created_at = Column(DateTime, default=datetime.now(UTC))
 
-    user = Relationship("User", back_populates="cars")
+    user = relationship("User", back_populates="cars")
 
 class Login(Base):
+    __tablename__ = 'Tokens'
 
-    Token_Id = Column(String, primary_key=True, AUTO_INCREMENT=True)
-    user_id = Column(Integer,foreign_key=True,nullable=True)
-    Auth = Column(bool, required=True)
+    Token_Id = Column(String, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey(User.user_id), nullable=True) 
+    Auth = Column(Integer, nullable=True)
     Error_type = Column(String)
     Error_message = Column(String)
-    created_at = Column(DateTime, default=DateTime.utcnow)
+    created_at = Column(DateTime, default=datetime.now(UTC))
 
-    user = Relationship("User", back_populates="login")
+    user = relationship("User", back_populates="login")
 
- 
+

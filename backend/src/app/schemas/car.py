@@ -1,28 +1,41 @@
 from pydantic import BaseModel
+from datetime import datetime
 from enum import Enum
+from pydantic import Field
+
+class CarBase(BaseModel):
+    year: int
+    BrandName: str
+    model: str
+    trim: str | None = None
 
 class CarType(str, Enum):
-    car = "car"
+    cars = "car"
     year = 2024
     mileage = 300000
 
-
-class CarBase(BaseModel):
-    car_name: str
-    Brand_type: CarType
-    mile_age: int
-    year: int
-    Trim: str
-    Last_Oil_Change: str
-    AirFilter: str
-
-
+class Car(CarBase):
+    car_id: int = Field(..., gt=0)
+    cars: int
+    mileage: int | None = None
+    LastOilChange: str | None = None
+    AirFilter: str | None = None
+    created_at: datetime
 
 class CarCreate(CarBase):
-    pass
+    mileage: int | None = None
+    LastOilChange: str | None = None
+    AirFilter: str | None = None
 
-class CategoryResponse(CarBase):
-    id: int
+class CarUpdate(BaseModel):
+    trim: str | None = None
+    mileage: int | None = None
+    LastOilChange: str | None = None
+    AirFilter: str | None = None
+
+class CarResponse(CarBase):
+    car_id: int
+    cars: int
 
     class Config:
         from_attributes = True
