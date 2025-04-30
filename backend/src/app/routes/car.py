@@ -14,7 +14,7 @@ from app.core.crud import get_user_by_username
 
 # Import car schemas
 from app.schemas.car import CarCreate, CarResponse, Car, CarUpdate
-from app.schemas.users import User
+from app.schemas.users import UserResponse
 
 router = APIRouter()
 
@@ -55,14 +55,26 @@ def read_car_info(car_id: int, token: str = Depends(oauth2_scheme), db: Session 
     car = car_service.get_car_info(db=db, user_id=user.user_id, car_id=car_id)
     return car
 
-@router.get("/garage/{username}") # Creates /garage/{username} endpoint in the API
-def read_user_garage(username: str, db: Session = Depends(get_db)):
-    cars = car_service.get_user_garage(db=db, username=username)
+@router.get("/mygarage", response_model=list[Car]) # Creates /mygarage endpoint in the API
+def read_user_garage(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    decoded_token = verify_token(token)
+    if decoded_token is None:
+        raise HTTPException(status_code=401, detail="Invalid token",
+                            headers={"WWW-Authenticate": "Bearer"})
+    user = get_user_by_username(db=db, username=decoded_token.username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    cars = car_service.get_user_garage(db=db, user_id=user.user_id)
     return cars
 
 @router.delete("/delete/{car_id}")  # Creates /delete/{car_id} endpoint in the API
-def delete_car(car_id: int, db: Session = Depends(get_db)):
-    deleted_car = car_service.delete_car(db=db, car_id=car_id)
-    if not deleted_car:
-        raise HTTPException(status_code=404, detail="Car not found")
-    return {"message": "Car deleted successfully"}
+def delete_car(car_id: int, token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    decoded_token = verify_token(token)
+    if decoded_token is None:
+        raise HTTPException(status_code=401, detail="Invalid token",
+                            headers={"WWW-Authenticate": "Bearer"})
+    user = get_user_by_username(db=db, username=decoded_token.username)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    deleted_car = car_service.delete_car(db=db, car_id=car_id, user_id=user.user_id)
+    return deleted_car

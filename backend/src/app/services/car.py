@@ -50,11 +50,21 @@ def get_car_info(db: Session, user_id: int, car_id: int):
         raise HTTPException(status_code=401, detail="You are not authorized to view this information")
     return car
 
-def get_user_garage():
-    return
+def get_user_garage(db: Session, user_id: int):
+    cars = db.query(Car).filter(Car.cars == int(user_id)).all()
+    if not cars:
+        raise HTTPException(status_code=404, detail="No cars found for this user")
+    return cars
 
-def delete_car():
-    return
+def delete_car(db: Session, user_id: int, car_id: int):
+    car = get_car_by_id(db=db, car_id=car_id)
+    if not car:
+        raise HTTPException(status_code=404, detail="Car not found")
+    if int(car.cars) != int(user_id):
+        raise HTTPException(status_code=401, detail="You do not have authorization to delete this car")
+    db.delete(car)
+    db.commit()
+    return {"message": "Car deleted successfully"}
 
 def get_car_by_id(db: Session, car_id: int):
     car = db.query(Car).filter(Car.car_id == car_id).first()
