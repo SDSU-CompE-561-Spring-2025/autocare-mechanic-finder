@@ -11,14 +11,14 @@ export default function UpdateUserForm() {
                         name="state"
                         className="bg-slate-300 rounded-md w-full text-black"/>
             </div>
-            <div className="mb-5 items-center flex flex-row">
+            <div className="peer mb-5 items-center flex flex-row">
                 <label htmlFor="update_password" className="text-white">Update Password? (Optional)</label>
                 <input  type="checkbox"
                         id="update_password"
                         name="update_password"
-                        className="h-4 w-4 ml-3 cursor-pointer accent-red-500"/>
+                        className="h-4 w-4 ml-3 cursor-pointer hover:accent-red-700 accent-red-500"/>
             </div>
-            <div className="mb-5">
+            <div className="mb-5 not-peer-has-checked:hidden">
                 <label htmlFor="new_password" className="text-white">New Password: </label>
                 <input  type="password"
                         id="new_password"
@@ -32,12 +32,11 @@ export default function UpdateUserForm() {
                         name="current_password"
                         className="bg-slate-200 rounded-md w-full text-black"/>
             </div>
-            <div className="text-center w-full">
+            <div className="flex justify-between w-full">
                 <button type="submit"
-                        className="py-3.5 px-10 bg-red-500 rounded-xl cursor-pointer text-xl font-bold text-white">
+                        className="py-3.5 px-10 bg-red-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-red-400">
                         Update</button>
-                <button type="submit"
-                        className="py-3.5 px-10 ml-6 bg-slate-500 rounded-xl cursor-pointer text-xl font-bold text-white">
+                <button className="py-3.5 px-10 bg-slate-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-slate-400">
                         Cancel</button>
             </div>
         </form>
