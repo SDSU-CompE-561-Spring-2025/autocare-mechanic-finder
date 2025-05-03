@@ -1,46 +1,138 @@
-export default function UpdateUserForm() {
-    return(
-        <div className="flex flex-col self-center justify-center items-center bg-zinc-950 h-screen w-screen">
-        <div className="flex flex-col justify-center items-center p-5 bg-zinc-800 max-w-xl margin-auto rounded-xl">
-        <h1 className="mb-5 text-2xl font-bold text-white">Update User</h1>
-        <form>
-            <div className="mb-5">
-                <label htmlFor="state" className="text-white">US State: (Optional)</label>
-                <input  type="text"
-                        id="state"
-                        name="state"
-                        className="bg-slate-300 rounded-md w-full text-black"/>
-            </div>
-            <div className="peer mb-5 items-center flex flex-row">
-                <label htmlFor="update_password" className="text-white">Update Password? (Optional)</label>
-                <input  type="checkbox"
-                        id="update_password"
-                        name="update_password"
-                        className="h-4 w-4 ml-3 cursor-pointer hover:accent-red-700 accent-red-500"/>
-            </div>
-            <div className="mb-5 not-peer-has-checked:hidden">
-                <label htmlFor="new_password" className="text-white">New Password: </label>
-                <input  type="password"
-                        id="new_password"
-                        name="new_password"
-                        className="bg-slate-200 rounded-md w-full text-black"/>
-            </div>
-            <div className="mb-5">
-                <label htmlFor="current_password" className="text-white">Current Password: </label>
-                <input  type="password"
-                        id="current_password"
-                        name="current_password"
-                        className="bg-slate-200 rounded-md w-full text-black"/>
-            </div>
-            <div className="flex justify-between w-full">
-                <button type="submit"
-                        className="py-3.5 px-10 bg-red-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-red-400">
-                        Update</button>
-                <button className="py-3.5 px-10 bg-slate-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-slate-400">
-                        Cancel</button>
-            </div>
-        </form>
-        </div>
-        </div>
-    )
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import Link from 'next/link';
+
+const formSchema = z.object({
+	state: z.string().optional(),
+  change_password: z.boolean(),
+  new_password: z.string().optional(),
+	current_password: z.string().min(1, {
+		message: 'You must enter your current password',
+	}),
+});
+
+export default function ProfileForm() {
+	// 1. Define your form.
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			state: '',
+      change_password: false,
+      new_password: '',
+      current_password: '',
+
+		},
+	});
+
+	const isChecked = form.watch('change_password');
+
+	// 2. Define a submit handler.
+	function onSubmit(values: z.infer<typeof formSchema>) {
+		// Do something with the form values.
+		// ✅ This will be type-safe and validated.
+		console.log(values);
+	}
+
+	return (
+		<Form {...form}>
+			<form
+				onSubmit={form.handleSubmit(onSubmit)}
+				className="space-y-8"
+			>
+				<FormField
+					control={form.control}
+					name="state"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>State:</FormLabel>
+							<FormControl>
+								<Input
+									placeholder="Enter USA state of residence"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+        <FormField
+          control={form.control}
+          name="change_password"
+          render={({ field }) => (
+            <FormItem className="flex space-x-1">
+              <div>
+                <FormLabel>Change Password:</FormLabel>
+                <FormDescription>
+                  Check this box to change your password.
+                </FormDescription>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Checkbox
+                  className='peer size-7 cursor-pointer hover:bg-white bg-red-500'
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+					control={form.control}
+					name="new_password"
+					render={({ field }) => (
+						<FormItem className={isChecked? 'unhidden' : 'hidden'}>
+							<FormLabel>New Password:</FormLabel>
+							<FormControl>
+								<Input
+									type={'password'}
+									placeholder="Enter your new password"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="current_password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Current Password:</FormLabel>
+							<FormControl>
+								<Input
+									type={'password'}
+									placeholder="Enter your current password"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<div className="flex justify-between w-full">
+					<Button type="submit" className="py-6 px-10 bg-red-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-red-400">Submit</Button>
+					<Button asChild className="py-6 px-10 bg-slate-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-slate-400">
+						<Link href="/">Cancel</Link>
+					</Button>
+				</div>
+			</form>
+		</Form>
+	);
 }
