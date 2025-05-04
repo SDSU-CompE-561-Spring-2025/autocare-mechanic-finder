@@ -1,5 +1,5 @@
 'use client';
-
+import { API_HOST_URL } from '@/lib/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -26,7 +26,7 @@ const formSchema = z.object({
 	}),
 });
 
-export default function ProfileForm() {
+export default function UpdateUserForm() {
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -42,10 +42,20 @@ export default function ProfileForm() {
 	const isChecked = form.watch('change_password');
 
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
+	//function onSubmit(values: z.infer<typeof formSchema>) {
+	const onSubmit = async (data: z.infer<typeof formSchema>) => {
+		try{
+			const response = await fetch(`${API_HOST_URL}/users/update`,
+				{
+					method: 'PUT',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(data),
+				},
+			)
+		} catch (error) {
+			console.error('Error updating user:', error);
+		}
+		console.log(JSON.stringify(data));
 	}
 
 	return (
@@ -84,7 +94,7 @@ export default function ProfileForm() {
               </div>
               <FormControl>
                 <Checkbox
-                  className='peer size-7 cursor-pointer hover:bg-white bg-red-500'
+                  className='size-7 cursor-pointer hover:bg-red-300 bg-white transition-all duration-300'
                   checked={field.value}
                   onCheckedChange={field.onChange}
                 />
@@ -127,9 +137,9 @@ export default function ProfileForm() {
 					)}
 				/>
 				<div className="flex justify-between w-full">
-					<Button type="submit" className="py-6 px-10 bg-red-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-red-400">Submit</Button>
-					<Button asChild className="py-6 px-10 bg-slate-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-slate-400">
-						<Link href="/">Cancel</Link>
+					<Button type="submit" className="py-6 px-9.5 bg-red-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-red-400">Submit</Button>
+					<Button asChild className="py-6 px-12.5 bg-slate-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-slate-400">
+						<Link href="/">Back</Link>
 					</Button>
 				</div>
 			</form>
