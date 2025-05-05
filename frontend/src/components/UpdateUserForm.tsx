@@ -43,6 +43,7 @@ export default function UpdateUserForm() {
 	const isChecked = form.watch('change_password');
 	const [submissionStatus, setStatus] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [successful, isSuccessful] = useState(false);
 
 	// 2. Define a submit handler.
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -58,8 +59,10 @@ export default function UpdateUserForm() {
 			)
 			if(response.status === 200) {
 				setStatus('User updated successfully!');
+				isSuccessful(true);
 			} else{
 				setStatus("Error: " + response.statusText);
+				isSuccessful(false);
 			}
 		} catch (error) {
 			console.error('Error updating user:', error);
@@ -155,7 +158,7 @@ export default function UpdateUserForm() {
 						<Link href="/">Back</Link>
 					</Button>
 				</div>
-				<div className="flex justify-center text-xl font-bold text-red-500 mt-2">
+				<div className={successful ? "flex justify-center text-xl font-bold text-green-600 mt-2" : "flex justify-center text-xl font-bold text-red-600 mt-2"}>
 					{submissionStatus}
 				</div>
 			</form>

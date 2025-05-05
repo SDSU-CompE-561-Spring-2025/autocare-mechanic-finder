@@ -38,6 +38,7 @@ export default function UpdateCarForm() {
 
 	const [submissionStatus, setStatus] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [successful, isSuccessful] = useState(false);
 	const params = useSearchParams();
 	const carId = params.get('car_id'); // Get the carId from the URL
 
@@ -55,8 +56,10 @@ export default function UpdateCarForm() {
 			)
 			if(response.status === 200) {
 				setStatus('Car updated successfully!');
+				isSuccessful(true);
 			} else{
 				setStatus("Error: " + response.statusText);
+				isSuccessful(false);
 			}
 		} catch (error) {
 			console.error('Error updating user:', error);
@@ -147,7 +150,7 @@ export default function UpdateCarForm() {
 						<Link href="/">Back</Link>
 					</Button>
 				</div>
-				<div className="flex justify-center text-xl font-bold text-red-500 mt-2">
+				<div className={successful ? "flex justify-center text-xl font-bold text-green-600 mt-2" : "flex justify-center text-xl font-bold text-red-600 mt-2"}>
 					{submissionStatus}
 				</div>
 			</form>
