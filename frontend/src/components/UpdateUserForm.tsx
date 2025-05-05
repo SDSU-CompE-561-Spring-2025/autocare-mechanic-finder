@@ -1,6 +1,7 @@
 'use client';
 import { API_HOST_URL } from '@/lib/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import {
@@ -40,29 +41,37 @@ export default function UpdateUserForm() {
 	});
 
 	const isChecked = form.watch('change_password');
+	const [submissionStatus, setStatus] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	// 2. Define a submit handler.
-	//function onSubmit(values: z.infer<typeof formSchema>) {
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
+		setIsLoading(true);
 		try{
+			const token = localStorage.getItem('accesstoken');	// Get the token from local storage, must match the variable name given in login
 			const response = await fetch(`${API_HOST_URL}/users/update`,
 				{
 					method: 'PUT',
-					headers: { 'Content-Type': 'application/json' },
+					headers: { 'Authorization': `Bearer ${token}` , 'Content-Type': 'application/json' },
 					body: JSON.stringify(data),
 				},
 			)
+			if(response.status === 200) {
+				setStatus('User updated successfully!');
+			} else{
+				setStatus("Error: " + response.statusText);
+			}
 		} catch (error) {
 			console.error('Error updating user:', error);
+		} finally {
+			setIsLoading(false);
 		}
-		console.log(JSON.stringify(data));
 	}
 
 	return (
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="space-y-8"
 			>
 				<FormField
 					control={form.control}
@@ -73,6 +82,7 @@ export default function UpdateUserForm() {
 							<FormControl>
 								<Input
 									placeholder="Enter USA state of residence"
+									className='border-2 border-zinc-500 bg-white mb-4'
 									{...field}
 								/>
 							</FormControl>
@@ -80,29 +90,29 @@ export default function UpdateUserForm() {
 						</FormItem>
 					)}
 				/>
-        <FormField
-          control={form.control}
-          name="change_password"
-          render={({ field }) => (
-            <FormItem className="flex space-x-1">
-              <div>
-                <FormLabel>Change Password:</FormLabel>
-                <FormDescription>
-                  Check this box to change your password.
-                </FormDescription>
-                <FormMessage />
-              </div>
-              <FormControl>
-                <Checkbox
-                  className='size-7 cursor-pointer hover:bg-red-300 bg-white transition-all duration-300'
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
+			<FormField
+			control={form.control}
+			name="change_password"
+			render={({ field }) => (
+				<FormItem className="flex space-x-1 mb-4">
+				<div>
+					<FormLabel>Change Password:</FormLabel>
+					<FormDescription className='text-zinc-600'>
+					Check this box to change your password.
+					</FormDescription>
+					<FormMessage />
+				</div>
+				<FormControl>
+					<Checkbox
+					className='size-7 cursor-pointer hover:bg-[#738678] bg-white transition-all duration-300'
+					checked={field.value}
+					onCheckedChange={field.onChange}
+					/>
+				</FormControl>
+				</FormItem>
+			)}
+			/>
+			<FormField
 					control={form.control}
 					name="new_password"
 					render={({ field }) => (
@@ -112,6 +122,7 @@ export default function UpdateUserForm() {
 								<Input
 									type={'password'}
 									placeholder="Enter your new password"
+									className='border-2 border-zinc-500 bg-white mb-4'
 									{...field}
 								/>
 							</FormControl>
@@ -129,6 +140,7 @@ export default function UpdateUserForm() {
 								<Input
 									type={'password'}
 									placeholder="Enter your current password"
+									className='border-2 border-zinc-500 bg-white mb-4'
 									{...field}
 								/>
 							</FormControl>
@@ -137,10 +149,14 @@ export default function UpdateUserForm() {
 					)}
 				/>
 				<div className="flex justify-between w-full">
-					<Button type="submit" className="py-6 px-9.5 bg-red-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-red-400">Submit</Button>
-					<Button asChild className="py-6 px-12.5 bg-slate-500 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-slate-400">
+					<Button type="submit" className="py-6 px-9.5 bg-[#738678] rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-[#7ba686]">
+						{isLoading ? 'Loading...' : 'Submit'}</Button>
+					<Button asChild className="py-6 px-12.5 bg-zinc-600 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-zinc-500">
 						<Link href="/">Back</Link>
 					</Button>
+				</div>
+				<div className="flex justify-center text-xl font-bold text-red-500 mt-2">
+					{submissionStatus}
 				</div>
 			</form>
 		</Form>
