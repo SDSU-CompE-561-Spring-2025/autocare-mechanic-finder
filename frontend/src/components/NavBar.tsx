@@ -14,6 +14,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 
@@ -39,7 +40,7 @@ const navList = [
         <Button variant="outline">Menu</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>Nav Menu</DropdownMenuLabel>
         <DropdownMenuSeparator />
         
         <DropdownMenuGroup>
@@ -49,17 +50,19 @@ const navList = [
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            Support
+            Register New Car
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            Change Password
+            Car Parts
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-          <a href="https://github.com">GitHub</a>
+          <Link href="https://github.com">AutoShop Finder</Link>
           </DropdownMenuItem>
-
+          <DropdownMenuItem>
+            Update Password
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
       </DropdownMenuContent>
