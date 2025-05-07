@@ -61,7 +61,7 @@ const navList = [
           <Link href="">AutoShop Finder</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            Update Password
+          <Link href="">Update Password</Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
