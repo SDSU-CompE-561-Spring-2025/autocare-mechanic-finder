@@ -2,83 +2,85 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import MenuButton from '../components/ui/MenuButton';
+import Sidebar from '../components/ui/SideBar';
+import SearchForm from '../components/ui/SearchForm';
+import SearchResultCard from '../components/ui/SearchResultCard';
 
 export default function CarPartsPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [year, setYear] = useState('');
+  const [make, setMake] = useState('');
+  const [model, setModel] = useState('');
+  const [trim, setTrim] = useState('');
+  const [partNumber, setPartNumber] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSearch = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const queryParams = new URLSearchParams();
+      if (year) queryParams.append('year', year);
+      if (make) queryParams.append('make', make);
+      if (model) queryParams.append('model', model);
+      if (trim) queryParams.append('trim', trim);
+      if (partNumber) queryParams.append('part_number', partNumber);
+
+      const response = await fetch(`/api/autoparts/search?${queryParams.toString()}`);
+      if (!response.ok) throw new Error('Failed to fetch parts');
+      const data = await response.json();
+      setSearchResults(data.results || []);
+    } catch (err) {
+      setError('Error fetching parts.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div
       className="min-h-screen bg-cover bg-center relative"
       style={{ backgroundImage: 'url(/images/RoadSurface.jpg)' }}
     >
-      {/* Sidebar */}
-      <div
-        className={`fixed top-0 left-0 h-full w-60 bg-[#738678] p-6 transform transition-transform ${
-          menuOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <h2 className="text-white font-bold mb-4">Menu / Navigation</h2>
-        <nav className="flex flex-col space-y-4 text-white">
-          <a href="#" className="font-bold">
-            Home
-          </a>
-          <a href="#" className="font-bold">
-            Register New Car
-          </a>
-          <a href="#" className="font-bold">
-            Car Parts
-          </a>
-          <a href="#" className="font-bold">
-            AutoShop Parts Finder
-          </a>
-          <a href="#" className="font-bold">
-            Update Account
-          </a>
-        </nav>
-      </div>
+      <Sidebar menuOpen={menuOpen} />
+      <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
 
-      {/* Menu button */}
-      <button
-        className="fixed top-4 left-4 z-20 px-4 py-2 rounded bg-[#738678] text-white"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
-        {menuOpen ? 'Close' : 'Menu'}
-      </button>
-
-      {/* Main content */}
       <div className="flex flex-col items-center justify-center min-h-screen">
-        <div
-          className="p-8 rounded-lg w-full max-w-3xl"
-          style={{ backgroundColor: '#C4C4C4' }}
-        >
+        <div className="p-8 rounded-lg w-full max-w-3xl" style={{ backgroundColor: '#C4C4C4' }}>
           <div className="flex items-center justify-center mb-4">
             <h1 className="text-3xl font-bold mr-2">My Car Care</h1>
-            <Image
-              src="/images/AutoCareLogo2_trimmed.png"
-              alt="My Car Care Logo"
-              width={50}
-              height={50}
-            />
+            <Image src="/images/AutoCareLogo2_trimmed.png" alt="My Car Care Logo" width={50} height={50} />
           </div>
 
-          <input
-            type="text"
-            placeholder="Search for a part..."
-            className="w-full p-2 border border-gray-300 rounded mb-4"
+          <SearchForm
+            year={year}
+            make={make}
+            model={model}
+            trim={trim}
+            partNumber={partNumber}
+            setYear={setYear}
+            setMake={setMake}
+            setModel={setModel}
+            setTrim={setTrim}
+            setPartNumber={setPartNumber}
+            handleSearch={handleSearch}
+            loading={loading}
           />
 
+          {error && <p className="text-red-600 mb-4">{error}</p>}
+
           <div className="space-y-2">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <div
-                key={num}
-                className="flex items-center justify-between bg-white p-3 rounded shadow"
-              >
-                <span className="font-medium">Search Result {num}</span>
-                <button className="px-3 py-1 rounded bg-[#738678] text-white">
-                  View Image
-                </button>
-              </div>
-            ))}
+            {searchResults.length > 0 ? (
+              searchResults.map((item, index) => (
+                <SearchResultCard key={index} item={item} />
+              ))
+            ) : (
+              !loading && <p className="text-center text-gray-700">No results yet. Try searching above.</p>
+            )}
           </div>
 
           <div className="flex justify-center mt-6">
