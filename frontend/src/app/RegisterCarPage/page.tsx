@@ -103,7 +103,7 @@ function RegisterNewCar() {
         <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto', gap: '10px', marginBottom: '15px' }}>
           {/* Input fields remain the same */}
           <div>
-            <label htmlFor="year">Year:</label>
+            <label htmlFor="year">Year:*</label>
             <input
               type="text"
               id="year"
@@ -113,7 +113,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="make">Make:</label>
+            <label htmlFor="make">Make:*</label>
             <input
               type="text"
               id="make"
@@ -123,7 +123,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="model">Model:</label>
+            <label htmlFor="model">Model:*</label>
             <input
               type="text"
               id="model"
@@ -143,7 +143,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="fuelType">Car/Fuel Type:</label>
+            <label htmlFor="fuelType">Car/Fuel Type:*</label>
             <input
               type="text"
               id="fuelType"
@@ -163,7 +163,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="lastOilChange">Date of Last Oil Change:</label>
+            <label htmlFor="lastOilChange">Date of Last Oil Change:*</label>
             <input
               type="text"
               id="lastOilChange"
@@ -173,7 +173,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="lastAirFilterChange">Date of Last Air Filter Change:</label>
+            <label htmlFor="lastAirFilterChange">Date of Last Air Filter Change:*</label>
             <input
               type="text"
               id="lastAirFilterChange"
@@ -183,7 +183,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="lastRegistrationRenewal">Date of Last Registration Renewal:</label>
+            <label htmlFor="lastRegistrationRenewal">Date of Last Registration Renewal:*</label>
             <input
               type="text"
               id="lastRegistrationRenewal"
@@ -193,7 +193,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="stateOfResidence">State of Residence:</label>
+            <label htmlFor="stateOfResidence">State of Residence:*</label>
             <input
               type="text"
               id="stateOfResidence"
