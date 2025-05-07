@@ -1,4 +1,6 @@
 import React from 'react';
+import Link from "next/link";
+import { Button } from "@/components/ui/button"
 
 export default function CarProfile() {
     return(
@@ -11,8 +13,8 @@ export default function CarProfile() {
 
                     </div>
                 </div>
-                <footer className= "px-1">
-                    <p>Footer content goes here</p>
+                <footer className= "px-1 bg-[#C4C4C4] text-black rounded-xl w-[18%] h-[15%] min-h-15 flex justify-between items-center">
+                <p><Button variant="outline">Find Auto Parts</Button></p>
                 </footer>
         </div>
     )
