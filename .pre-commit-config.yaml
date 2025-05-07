@@ -9,6 +9,7 @@ repos:
       rev: v5.0.0
       hooks:
           - id: check-added-large-files
+            exclude_types: [ image ]
           - id: check-docstring-first
           - id: check-executables-have-shebangs
           - id: check-toml
