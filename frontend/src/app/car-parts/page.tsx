@@ -6,6 +6,7 @@ import MenuButton from '../components/ui/MenuButton';
 import Sidebar from '../components/ui/SideBar';
 import SearchForm from '../components/ui/SearchForm';
 import SearchResultCard from '../components/ui/SearchResultCard';
+import TutorialButton from '../components/ui/TutorialButton';
 
 export default function CarPartsPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -46,14 +47,22 @@ export default function CarPartsPage() {
       className="min-h-screen bg-cover bg-center relative"
       style={{ backgroundImage: 'url(/images/RoadSurface.jpg)' }}
     >
-      <Sidebar menuOpen={menuOpen} />
+      {/* Sidebar passes close-only function */}
+      <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(false)} />
+
+      {/* Top-left toggle button */}
       <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
 
       <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="p-8 rounded-lg w-full max-w-3xl" style={{ backgroundColor: '#C4C4C4' }}>
           <div className="flex items-center justify-center mb-4">
-            <h1 className="text-3xl font-bold mr-2">My Car Care</h1>
-            <Image src="/images/AutoCareLogo2_trimmed.png" alt="My Car Care Logo" width={50} height={50} />
+            <h1 className="text-3xl font-bold mr-2 text-black">My Car Care</h1>
+            <Image
+              src="/images/AutoCareLogo2_trimmed.png"
+              alt="My Car Care Logo"
+              width={50}
+              height={50}
+            />
           </div>
 
           <SearchForm
@@ -79,14 +88,16 @@ export default function CarPartsPage() {
                 <SearchResultCard key={index} item={item} />
               ))
             ) : (
-              !loading && <p className="text-center text-gray-700">No results yet. Try searching above.</p>
+              !loading && (
+                <p className="text-center text-gray-700">
+                  No results yet. Try searching above.
+                </p>
+              )
             )}
           </div>
 
           <div className="flex justify-center mt-6">
-            <button className="px-4 py-2 rounded bg-[#738678] text-white">
-              Click Here for Tutorials
-            </button>
+            <TutorialButton />
           </div>
         </div>
       </div>

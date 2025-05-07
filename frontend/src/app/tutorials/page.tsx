@@ -18,12 +18,12 @@ export default function TutorialsPage() {
         
         {/* Title with logo */}
         <div className="flex items-center justify-center mb-4">
-          <h1 className="text-3xl font-bold mr-2">My Car Care</h1>
+          <h1 className="text-3xl font-bold mr-2 text-black">My Car Care</h1>
           <Image src="/images/AutoCareLogo2_trimmed.png" alt="My Car Care Logo" width={50} height={50} />
         </div>
 
         {/* YouTube links section */}
-        <h2 className="text-xl font-semibold mb-2">Select a Youtube Link for a Quick Tutorial:</h2>
+        <h2 className="text-xl font-semibold mb-2 text-black">Select a Youtube Link for a Quick Tutorial:</h2>
         <ul className="mb-6">
           {youtubeLinks.map((link, index) => (
             <li key={index} className="mb-2">
@@ -40,7 +40,7 @@ export default function TutorialsPage() {
         {/* Embedded YouTube video (only shown when a link is clicked) */}
         {selectedVideoId && (
           <div>
-            <h2 className="text-xl font-semibold mb-2">Embedded YouTube Video:</h2>
+            <h2 className="text-xl font-semibold mb-2 text-black">Embedded YouTube Video:</h2>
             <div className="relative w-full overflow-hidden" style={{ paddingTop: '56.25%' }}>
               <iframe
                 className="absolute top-0 left-0 w-full h-full rounded"
