@@ -242,7 +242,7 @@ export default function UserGarage() {
 	}
 	else{
 	return(
-		<div>No Cars In User's Garage</div>
+		<div>No Cars In Garage</div>
 	)
 	}
 }
