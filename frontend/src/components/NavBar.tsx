@@ -46,11 +46,11 @@ const navList = [
         <DropdownMenuGroup>
           
           <DropdownMenuItem>
-            Profile
+          <Link href="/carprofile"> Profile</Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            Register New Car
+          <Link href="/">Register New Car</Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
@@ -58,7 +58,7 @@ const navList = [
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-          <Link href="https://github.com">AutoShop Finder</Link>
+          <Link href="">AutoShop Finder</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Update Password
