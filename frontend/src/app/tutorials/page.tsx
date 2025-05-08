@@ -38,7 +38,7 @@ export default function TutorialsPage() {
           <div className="flex items-center justify-center mb-4">
             <h1 className="text-3xl font-bold mr-2 text-black">My Car Care</h1>
             <Image
-              src="/images/AutoCareLogo2_trimmed.png"
+              src="/images/MyCarCare_Trimmed.png"
               alt="My Car Care Logo"
               width={50}
               height={50}
