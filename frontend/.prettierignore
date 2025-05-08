@@ -1,0 +1,3 @@
+# Prettier will ignore the following artifacts:
+build
+coverage
