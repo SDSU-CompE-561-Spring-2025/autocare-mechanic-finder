@@ -31,7 +31,7 @@ const NearbyAutoShopsMap = () => {
 
   useEffect(() => {
     if (scriptLoaded && mapRef.current && !map) {
-      const initialLocation = { lat: 32.7157, lng: -117.1611 }; // San Diego default
+      const initialLocation = { lat: 32.7157, lng: -117.1611 }; 
       const newMap = new window.google.maps.Map(mapRef.current, {
         center: initialLocation,
         zoom: 12,
@@ -66,7 +66,7 @@ const NearbyAutoShopsMap = () => {
           {
             location,
             radius: 5000,
-            type: 'car_repair', // 'auto_repair' is deprecated, use 'car_repair'
+            type: 'car_repair',
           },
           (results, status) => {
             if (status === window.google.maps.places.PlacesServiceStatus.OK) {

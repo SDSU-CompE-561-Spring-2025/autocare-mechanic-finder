@@ -99,13 +99,13 @@ function RegisterNewCar() {
           maxWidth: '600px',
         }}
       >
-        <div // Added this div for the tab
+        <div 
           style={{
-            backgroundColor: '#ddd', // Gray color for the tab
-            borderRadius: '10px 10px 0 0', // Rounded top corners
-            padding: '10px', // Padding inside the tab
-            marginBottom: '20px', // Space between tab and form content
-            display: 'flex',          // For centering the text
+            backgroundColor: '#ddd', // Gray
+            borderRadius: '10px 10px 0 0', 
+            padding: '10px',
+            marginBottom: '20px', 
+            display: 'flex',         
             justifyContent: 'center',
           }}
         >
