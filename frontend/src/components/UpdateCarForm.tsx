@@ -147,7 +147,7 @@ export default function UpdateCarForm() {
 					<Button type="submit" className="py-6 px-9.5 bg-[#738678] rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-[#7ba686] mr-3">
 						{isLoading ? 'Loading...' : 'Submit'}</Button>
 					<Button asChild className="py-6 px-12.5 bg-zinc-600 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-zinc-500">
-						<Link href="/dashboard">Back</Link>
+						<Link href={`/carupdate?car_id=${carId}`}>Back</Link>
 					</Button>
 				</div>
 				<div className={successful ? "flex justify-center text-xl font-bold text-green-600 mt-2" : "flex justify-center text-xl font-bold text-red-600 mt-2"}>
