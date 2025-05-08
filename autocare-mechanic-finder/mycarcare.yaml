@@ -1,0 +1,426 @@
+openapi: 3.0.3
+info:
+  title: My Car Care
+  description: |-
+    The main function of this website is to have a place where a user can register their 
+    cars, keep track of auto information, find auto shops, and find necessary car parts 
+    and information with ease. There will be a user registration, car registration for the 
+    users, a main dashboard to display the user’s cars and basic information, a page for 
+    each car with more specific information, a search for car parts, and a separate page for 
+    auto shops. We will be utilizing an email verification system for user accounts, autopart 
+    apis for the autopart searches, and google maps api for auto shops.
+  version: 0.0.1
+tags:
+  - name: user
+    description: User operations
+
+  - name: car
+    description: Access user cars
+  
+  - name: maps
+    description: Google Maps API
+  
+  - name: autoparts
+    description: Autoparts Search API
+
+paths:
+  /user/register:
+    post:
+      tags: 
+        - user
+      summary: Adds a new user
+      operationId: userRegister
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        200:
+          description: Successfully created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        422:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: Logs in the user
+      operationId: userLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/user'
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'
+        401:
+          description: Login failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'
+  /user/verify/{verification_code}:
+    post:
+      tags:
+        - user
+      summary: Verifies the user's email
+      operationId: userVerify
+      parameters:
+        - name: verification_code
+          in: path
+          required: true
+          description: Verification Code
+          schema:
+            type: string
+      responses:
+        200:
+          description: Verification successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'
+        401:
+          description: Verification failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'
+  /user/update:
+    put:
+      tags:
+        - user
+      summary: Updates user information
+      operationId: userUpdate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        200:
+          description: Successfully updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        404:
+          description: User not found
+        422:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'  
+  /user/info/{username}:
+    get:
+      tags:
+        - user
+      summary: Returns user's information
+      operationId: userInfo
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: Username
+          schema:
+            type: string
+      responses:
+        200: 
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        404:
+          description: User not found
+  /user/delete/{username}:
+    delete:
+      tags:
+        - user
+      summary: Deletes a user
+      operationId: userDelete
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: Username
+          schema:
+            type: string
+      responses:
+        200: 
+          description: User deleted
+        401:
+          description: Not authorized
+        404:
+          description: User not found
+  /car/add:
+    post:
+      tags:
+        - car
+      summary: Adds a new car into a user's garage
+      operationId: carAdd
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        200:
+          description: Successfully added car
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        422:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'
+  /car/update:
+    put:
+      tags:
+        - car
+      summary: Updates a car's information
+      operationId: carUpdate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+      responses:
+        200:
+          description: Successfully updated car
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        404:
+          description: Car not found
+        422:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login'
+  /car/info/{car_id}:
+    get:
+      tags:
+        - car
+      summary: Returns car information
+      operationId: carInfo
+      parameters:
+        - name: car_id
+          in: path
+          required: true
+          description: Car ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Car information found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+        404:
+          description: Car not found
+  /car/garage/{username}:
+    get:
+      tags:
+        - car
+      summary: Returns information all cars for the specified user
+      operationId: carGarage
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: Username
+          schema:
+            type: string
+      responses:
+        200:
+          description: Array with details of all of a user's cars
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+        404:
+          description: User not found
+  /car/delete/{car_id}:
+    delete:
+      tags:
+        - car
+      summary: Deletes a car from the user's garage
+      operationId: carDelete
+      parameters:
+        - name: car_id
+          in: path
+          required: true
+          description: Car ID
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Car deleted
+        401:
+          description: Not authorized
+        404:
+          description: Car not found
+  /maps/api/textsearch:
+    get:
+      tags:
+        - maps
+      summary: Finds nearby auto shops
+      operationId: findAutoshops
+      parameters:
+        - name: location
+          in: query
+          description: Location
+          schema:
+            type: string
+        - name: search_Radius
+          in: query
+          description: Search Radius
+          schema: 
+            type: integer
+      responses:
+        200:
+          description: Success
+        400:
+          description: Invalid Argument
+  /autoparts/search:
+     get:
+       tags:
+         - autoparts
+       summary: Searches for available autoparts
+       operationId: partSearch
+       parameters:
+         - name: year
+           in: query
+           schema: 
+             type: integer
+         - name: make
+           in: query
+           schema: 
+             type: string
+         - name: model
+           in: query
+           schema: 
+             type: string
+         - name: trim
+           in: query
+           schema: 
+             type: string
+         - name: part_number
+           in: query
+           schema: 
+             type: string
+       responses:
+         200:
+           description: Success
+         422:
+           description: Error
+
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        user_Id:
+          type: integer
+          format: int32
+          example: '1001'
+        username:
+          type: string
+          example: 'testuser'
+        email:
+          type: string
+          example: 'testuser@email.com'
+        state:
+          type: string
+          example: 'california'
+        password:
+          type: string
+          example: 'secret1234'
+        cars:
+          type: string
+          example: 'Car 1'
+        created_at:
+          type: string
+          example: 'This was created at 12/24/24, 7:59pm'
+        
+        
+    Car:
+      type: object
+      properties:
+        car_id:
+          type: integer
+          format: int32
+          example: '1001'
+        cars:
+          type: string
+          example: 'Sheila'
+        BrandName:
+          type: string
+          example: 'Chevrolet'
+        Model:
+          type: string
+          example: 'Chevelle Z16'
+        Year:
+          type: integer
+          example: '1965'
+        Trim:
+          type: string
+          example: 'New Motor'
+        LastOilChange:
+          type: string
+          example: 'The Last Oil Change was on this date: 12/24/24'
+        Airfilter:
+          type: string
+          example: 'The Last Filter Change was on this date: 12/24/24'
+        created_at:
+          type: string
+          example: 'This was created at 12/24/24, 7:59pm'
+          
+    login:
+      type: object
+      properties:
+        Token_Id:
+          type: integer
+          format: int32
+          example: '1001'
+        user_Id:
+          type: integer
+          format: int32
+          example: '1001'
+        Auth: 
+          type: boolean
+          example: 'true / false'
+        Error_Type:
+          type: string
+          example: '400'
+        Error_message:
+          type: string
+          example: "Invalid login"
+        
+        created_at:
+          type: string
+          example: 'This was created at 12/24/24, 7:59pm'
