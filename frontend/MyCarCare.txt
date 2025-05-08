@@ -1,0 +1,8 @@
+We wanted to create a website that made car maintenance a little easier. 
+We were frustrated with having to manually keep track of maintenance cycles of cars and having to search up specific 
+car parts for specific cars, so in attempt to centralize all of these efforts, we created My Car Care. 
+
+The main features we wanted to implement were a login/user feature that could register cars with necessary information
+such as registration renewal dates, oil change dates, etc. We wanted a feature that would help people attempting their own 
+maintenance to find autoparts, and a method to find autoshops nearby a location. This would help centralize all the needed
+information to properly maintain a car. 
