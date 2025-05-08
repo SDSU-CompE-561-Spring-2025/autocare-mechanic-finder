@@ -1,34 +1,39 @@
+from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException
+from app.schemas.token import TokenData
 import jwt
-from datetime import datetime, timedelta
+from jwt.exceptions import InvalidTokenError
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from app.core.config import settings
 
 PRIVATE_KEY = settings.PRIVATE_KEY
-ALGO = "RS256"
+ALGO = "HS256"
 EXPIRE_TIME = 25
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
-def create_access_token(sub, expires: Optional[timedelta] = None):
+def create_access_token(data: dict, expires: timedelta | None = None):
     # generate jwt access token
+    encode = data.copy()
     if expires:
-        expire = datetime.utcnow() + EXPIRE_TIME
+        expire = datetime.now(timezone.utc) + timedelta(minutes = EXPIRE_TIME)
     else:
-        expire = datetime.utcnow() + timedelta(minutes=EXPIRE_TIME)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=EXPIRE_TIME)
 
-    encode = {"exp": expire, "sub": str(sub)}
+    encode.update({"exp": expire})
     encodeToJWT = jwt.encode(encode, PRIVATE_KEY, algorithm=ALGO)
     return encodeToJWT
 
 
-def verify_token(token):
-    # try with jwt.decode
-    # fail if expired or
-    # fail if not auth
+def verify_token(token: str):
     try:
-        payload = jwt.decode(token, PRIVATE_KEY, algorithm=[ALGO])
-        sub = payload.get("sub")
-        return sub
-    except jwt.ExpiredSignatureError:
-        return None
-    except jwt.JWTError:
-        return None
+        #print(token)
+        payload = jwt.decode(token, PRIVATE_KEY, algorithms=ALGO)
+        #print(payload)
+        username: str = payload.get("sub")
+        if username is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return TokenData(username = username)
+    except InvalidTokenError:
+        raise HTTPException(status_code=401, detail="Invalid token")
