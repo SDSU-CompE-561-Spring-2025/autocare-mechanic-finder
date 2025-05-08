@@ -50,11 +50,11 @@ const navList = [
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-          <Link href="/">Register New Car</Link>
+          <Link href="">Register New Car</Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
-            Car Parts
+          <Link href="">Car Parts</Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
