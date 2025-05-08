@@ -33,7 +33,7 @@ repos:
           - id: bandit
             name: Bandit
             entry: bandit
-            args: ["-c", "pyproject.toml", "-r", "src"]
+            args: ["-c", "backend/pyproject.toml", "-r", "src"]
             types: [python]
             language: system
             pass_filenames: false
