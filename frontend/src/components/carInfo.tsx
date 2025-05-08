@@ -3,6 +3,9 @@
 import { useSearchParams } from "next/navigation"
 import {useQuery} from "@tanstack/react-query"
 import { API_HOST_URL } from '@/lib/constants';
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 interface CarInfo {
     year: number;
@@ -20,7 +23,8 @@ interface CarInfo {
 export default function CarInfo() {
     const params = useSearchParams();
     const carId = params.get('car_id');
-    const getGarage = useQuery<CarInfo[]>({
+    const [cars, setCars] = useState<CarInfo[]>([]);
+    /*const getGarage = useQuery<CarInfo[]>({
 		queryKey: ['garage'],
 		queryFn: async () => {
 			const token = localStorage.getItem('accesstoken');	// Get the token from local storage, must match the variable name given in login
@@ -37,10 +41,37 @@ export default function CarInfo() {
 				throw new Error('Failed to fetch garage items');
 			}
 		},
-	});
+	});*/
+    const data = [{
+        "year": 2012,
+        "BrandName": "Hyundai",
+        "model": "Genesis Coupe",
+        "trim": "2.0T",
+        "car_id": 1,
+        "cars": 1,
+        "mileage": 100000,
+        "LastOilChange": "99000",
+        "AirFilter": "99000",
+        "created_at": "2025-05-06T23:49:42.973643"
+      }];
+    useEffect(() => {setCars(data)}, []);
     return (
         <div>
-            <h1>Car Information</h1>
+            
+            <h1><div>
+                {cars.map((car) => (
+                    <div key={car.car_id} className="flex flex-col text-black rounded-xl w-[80%] h-[70%] min-h-35">
+                        <div className="flex justify-between items-center"><b className="text-lg">{car.BrandName} {car.model}</b></div>
+                        <div className="bg-white rounded-xl  flex-1 overflow-auto">
+                            <p className = 'p-5'>Year: {car.year}</p>
+                            <p className = 'p-5'>Trim: {car.trim}</p>
+                            <p className = 'p-5'>Mileage: {car.mileage}</p>
+                            <p className = 'p-5'>Last Oil Change: {car.LastOilChange}</p>
+                            <p className = 'p-5'>Air Filter: {car.AirFilter}</p>
+                        </div>
+                    </div>
+                ))}
+		</div></h1>
         </div>
     );
 }

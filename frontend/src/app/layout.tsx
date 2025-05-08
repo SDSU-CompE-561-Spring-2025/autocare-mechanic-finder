@@ -28,8 +28,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NavBar/> 
-        {children}
+        
+        
+        <div className="h-screen w-screen bg-[url('/images/RoadSurface.jpg')] bg-cover bg-repeat bg-size-[30%]">
+                {children}</div>
+        
       </body>
     </html>
   );

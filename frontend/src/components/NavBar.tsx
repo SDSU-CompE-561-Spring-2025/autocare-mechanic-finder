@@ -46,7 +46,7 @@ const navList = [
         <DropdownMenuGroup>
           
           <DropdownMenuItem>
-          <Link href="/carprofile"> Profile</Link>
+          <Link href="/dashboard">Home</Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
