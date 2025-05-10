@@ -1,17 +1,24 @@
 'use client';
-import React from 'react';
+import React, {useState} from 'react';
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import CarInfo from '@/components/carInfo';
+import MenuButton from '../components/ui/MenuButton';
+import Sidebar from '../components/ui/SideBar';
 import NavBar from '@/components/NavBar';
 
 
 export default function CarProfile() {
+    const [menuOpen, setMenuOpen] = useState(false);
     return(
         
         <div>
             
-            <h1> <NavBar/>    </h1>
+             {/* Sidebar passes close-only function */}
+                  <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(false)} />
+            
+             {/* Top-left toggle button */}
+                  <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
             <div className="flex flex-col justify-center items-center h-screen w-screen bg-[url('/images/RoadSurface.jpg')] bg-cover bg-repeat bg-size-[30%] min-h-fit overflow-auto min-w-105">
                 <div className="box-border w-[80%]"><b className="ml-1 text-white text-xl">Car Name</b></div>
                 <div className="flex flex-col px-2 py-1 bg-[#C4C4C4] text-black rounded-xl w-[80%] h-[70%] min-h-35">
