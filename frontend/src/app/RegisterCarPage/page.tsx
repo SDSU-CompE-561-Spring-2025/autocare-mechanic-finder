@@ -81,7 +81,6 @@ function RegisterNewCar() {
   return (
     <div
       style={{
-        background: `url('/images/bg2.png') center center / cover no-repeat`,
         minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
