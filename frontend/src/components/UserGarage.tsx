@@ -31,6 +31,7 @@ export default function UserGarage() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [token, hasToken] = useState(false);
+	const [errormessage, setMessage] = useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -52,6 +53,13 @@ export default function UserGarage() {
 			} catch (err) {
 				setError(err);
 				setLoading(false);
+				if(err.toString().includes('401')){
+                    setMessage('Please Sign In Again');
+                    localStorage.removeItem('accesstoken');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 4000);
+                }
 			}
 			};
 		}
@@ -77,6 +85,11 @@ export default function UserGarage() {
 			</Card>
 			))}
 		</div>)
+	}
+	else if(errormessage){
+		return(
+			<div className='font-bold text-red-500 text-lg text-center'>{errormessage}</div>
+		)
 	}
 	else{
 	return(

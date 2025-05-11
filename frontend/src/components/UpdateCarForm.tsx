@@ -40,14 +40,14 @@ export default function UpdateCarForm() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [successful, isSuccessful] = useState(false);
 	const params = useSearchParams();
-	const carId = params.get('car_id'); // Get the carId from the URL
+	const carId = params.get('carid'); // Get the carId from the URL
 
 	// 2. Define a submit handler.
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
 		setIsLoading(true);
 		try{
 			const token = localStorage.getItem('accesstoken');	// Get the token from local storage, must match the variable name given in login
-			const response = await fetch(`${API_HOST_URL}/cars/update?car_id=${carId}`,
+			const response = await fetch(`${API_HOST_URL}/cars/update/${carId}`,
 				{
 					method: 'PUT',
 					headers: { 'Authorization': `Bearer ${token}` , 'Content-Type': 'application/json' },

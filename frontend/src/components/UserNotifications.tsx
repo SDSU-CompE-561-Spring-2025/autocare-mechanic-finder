@@ -63,6 +63,6 @@ export default function UserNotifications() {
             </div>)
     }
     else{
-    return(<div>No Cars In Garage</div>)
+    return(<div></div>)
     }
 }
