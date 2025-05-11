@@ -3,8 +3,8 @@ import React, {useState} from 'react';
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import CarInfo from '@/components/carInfo';
-import MenuButton from '../components/ui/MenuButton';
-import Sidebar from '../components/ui/SideBar';
+import MenuButton from '../../components/ui/MenuButton';
+import Sidebar from '../../components/ui/SideBar';
 import NavBar from '@/components/NavBar';
 
 

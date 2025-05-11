@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import MenuButton from '../components/ui/MenuButton';
-import Sidebar from '../components/ui/SideBar';
-import SearchForm from '../components/ui/SearchForm';
-import SearchResultCard from '../components/ui/SearchResultCard';
-import TutorialButton from '../components/ui/TutorialButton';
+import MenuButton from '../../components/ui/MenuButton';
+import Sidebar from '../../components/ui/SideBar';
+import SearchForm from '../../components/ui/SearchForm';
+import SearchResultCard from '../../components/ui/SearchResultCard';
+import TutorialButton from '../../components/ui/TutorialButton';
 
 export default function CarPartsPage() {
   const [menuOpen, setMenuOpen] = useState(false);

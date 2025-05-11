@@ -16,10 +16,10 @@ export default function Sidebar({ menuOpen, toggleMenu }) {
 
       {/* Navigation Links */}
       <nav className="flex flex-col space-y-4 text-white flex-grow">
-        <a href="/" className="font-bold hover:underline">Home</a>
-        <a href="/register" className="font-bold hover:underline">Register New Car</a>
+        <a href="/dashboard" className="font-bold hover:underline">Home</a>
+        <a href="/RegisterCarPage" className="font-bold hover:underline">Register New Car</a>
         <a href="/car-parts" className="font-bold hover:underline">Car Parts</a>
-        <a href="/autoshop-finder" className="font-bold hover:underline">AutoShop Parts Finder</a>
+        <a href="/AutoshopFinderPage" className="font-bold hover:underline">AutoShop Finder</a>
         <a href="/update-account" className="font-bold hover:underline">Update Account</a>
       </nav>
 

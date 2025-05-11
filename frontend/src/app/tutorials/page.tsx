@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import MenuButton from '../components/ui/MenuButton';
-import Sidebar from '../components/ui/SideBar';
+import MenuButton from '../../components/ui/MenuButton';
+import Sidebar from '../../components/ui/SideBar';
 
 export default function TutorialsPage() {
   const youtubeLinks = [
