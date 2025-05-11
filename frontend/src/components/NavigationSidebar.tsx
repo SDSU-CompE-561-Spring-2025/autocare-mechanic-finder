@@ -18,8 +18,7 @@ export default function NavigationSidebar() {
     }, []);
 
     return(
-        <div className="min-h-screen bg-cover bg-center relative"
-             style={{ backgroundImage: 'url(/images/RoadSurface.jpg)' }}>
+        <div>
             {/* Sidebar + Menu button */};
             <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
             <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
