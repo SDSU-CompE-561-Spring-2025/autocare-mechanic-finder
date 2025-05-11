@@ -22,10 +22,11 @@ interface CarInfo {
 
 export default function CarInfo() {
     const params = useSearchParams();
-    const carId = params.get('car_id');
+    const carId = params.get('carid');
     const [cars, setCars] = useState<CarInfo[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState('');
+    const [errormessage, setMessage] = useState('');
 
 
     useEffect(() => {
@@ -33,6 +34,7 @@ export default function CarInfo() {
             setLoading(true);
             try {
             const token = localStorage.getItem('accesstoken');	// Get the token from local storage, must match the variable name given in login
+            console.log(`${API_HOST_URL}/cars/info/${carId}`);
             const response = await fetch(`${API_HOST_URL}/cars/info/${carId}`, {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` , 'Content-Type': 'application/json' },
@@ -40,22 +42,27 @@ export default function CarInfo() {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const data = await response.json();
-            setCars(data);
-            setLoading(false);
+                const data = await response.json();
+                setCars(data);
+                setLoading(false);
             } catch (err) {
-            setError(err);
-            setLoading(false);
+                setError(err);
+                setLoading(false);
+                if(err.toString().includes('401')){
+                    setMessage('Please Sign In Again');
+                }
+                else if(err.toString().includes('422')){
+                    setMessage('Unauthorized');
+                }
             }
         };
     
         fetchData();
         }, [`${API_HOST_URL}/cars/mygarage`]);
-
-
+        
     return (
         <div>
-            
+            <div className={errormessage ? 'text-black' : 'text-red-500'}>{errormessage}</div>
             <h1><div>
                 {cars.map((car) => (
                     <div key={car.car_id} className="flex flex-col text-black rounded-xl w-[80%] h-[70%] min-h-35">

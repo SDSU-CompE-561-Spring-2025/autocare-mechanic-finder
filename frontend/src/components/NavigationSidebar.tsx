@@ -19,7 +19,7 @@ export default function NavigationSidebar() {
 
     return(
         <div>
-            {/* Sidebar + Menu button */};
+            {/* Sidebar + Menu button */}
             <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
             <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
         </div>
