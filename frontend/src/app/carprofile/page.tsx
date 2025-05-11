@@ -1,16 +1,25 @@
-import React from 'react';
+'use client';
+import React, {useState} from 'react';
 import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import CarInfo from '@/components/carInfo';
+import MenuButton from '../components/ui/MenuButton';
+import Sidebar from '../components/ui/SideBar';
 import NavBar from '@/components/NavBar';
 
 
 export default function CarProfile() {
+    const [menuOpen, setMenuOpen] = useState(false);
     return(
         
         <div>
             
-            <h1> <NavBar/>    </h1>
+             {/* Sidebar passes close-only function */}
+                  <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(false)} />
+            
+             {/* Top-left toggle button */}
+                  <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
+            <div className="flex flex-col justify-center items-center h-screen w-screen bg-[url('/images/RoadSurface.jpg')] bg-cover bg-repeat bg-size-[30%] min-h-fit overflow-auto min-w-105">
                 <div className="box-border w-[80%]"><b className="ml-1 text-white text-xl">Car Name</b></div>
                 <div className="flex flex-col px-2 py-1 bg-[#C4C4C4] text-black rounded-xl w-[80%] h-[70%] min-h-35">
                     <div className="px-1 pb-2  flex justify-between items-center"><b className="text-lg"></b></div>
@@ -18,10 +27,12 @@ export default function CarProfile() {
                     <CarInfo />
                     </div>
                 </div>
-                <footer className= "flex-col m-2 justify-end px-1 bg-[#C4C4C4] text-black rounded-xl w-[80%] h-[15%] min-h-12 flex justify-between items-center">
-                <p className = "flex justify-between margin bottom"><Button variant="outline" className="mr-20"><Link href="/findautoparts">Find Auto Parts</Link></Button>
-                <Button variant="outline" className="ml-50"><Link href="/car-search">Car Search</Link></Button></p>
+                <footer className= "flex-col m-2 justify-end px-5 bg-[#C4C4C4] text-black rounded-xl w-[37%] h-[15%] min-h-12 flex justify-between items-center">
+                <p className = "flex justify-between m-2 margin bottom bg-white rounded-xl p-4 py-5 mb-2 flex-1 overflow-auto">
+                    <Button variant="outline" className="mr-20 mb-auto"><Link href="/car-parts">Find Auto Parts</Link></Button>
+                <Button variant="outline" className="ml-50"><Link href="/AutoshopFinderPage">Car Search</Link></Button></p>
                 </footer>
+        </div>
         </div>
     )
 }

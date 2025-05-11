@@ -45,7 +45,7 @@ export default function CarPartsPage() {
   return (
     <div
       className="min-h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: 'url(/images/RoadSurface.jpg)' }}
+      
     >
       {/* Sidebar passes close-only function */}
       <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(false)} />
