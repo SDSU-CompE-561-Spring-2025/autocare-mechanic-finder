@@ -1,10 +1,12 @@
 import UserNotifications from "@/components/UserNotifications";
 import UserGarage from "@/components/UserGarage";
 import AddCarButton from "@/components/AddCarButton";
+import NavBar from '@/components/NavBar';
 
 export default function Dashboard() {
     return(
         <div>
+            <h1> <NavBar/>    </h1>
             <div className="flex flex-col justify-center items-center h-screen w-screen bg-[url('/images/RoadSurface.jpg')] bg-cover bg-repeat bg-size-[30%] min-h-fit overflow-auto min-w-105">
                 <div className="box-border w-[80%]"><b className="ml-1 text-white text-xl">User Dashboard</b></div>
                 <div className="flex flex-col px-3 py-2 mt-1 mb-3 bg-[#C4C4C4] text-black rounded-xl w-[80%] h-[20%] min-h-21">

@@ -24,37 +24,35 @@ export default function CarInfo() {
     const params = useSearchParams();
     const carId = params.get('car_id');
     const [cars, setCars] = useState<CarInfo[]>([]);
-    /*const getGarage = useQuery<CarInfo[]>({
-		queryKey: ['garage'],
-		queryFn: async () => {
-			const token = localStorage.getItem('accesstoken');	// Get the token from local storage, must match the variable name given in login
-			const response = await fetch(`${API_HOST_URL}/cars/garage`, {
-				method: 'GET',
-				headers: { 'Authorization': `Bearer ${token}` , 'Content-Type': 'application/json' },
-			});
-			if (response.status === 200) {
-				const data = await response.json();
-				setCars(data);
-				console.log(data);
-				return data;
-			} else {
-				throw new Error('Failed to fetch garage items');
-			}
-		},
-	});*/
-    const data = [{
-        "year": 2012,
-        "BrandName": "Hyundai",
-        "model": "Genesis Coupe",
-        "trim": "2.0T",
-        "car_id": 1,
-        "cars": 1,
-        "mileage": 100000,
-        "LastOilChange": "99000",
-        "AirFilter": "99000",
-        "created_at": "2025-05-06T23:49:42.973643"
-      }];
-    useEffect(() => {setCars(data)}, []);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+            const token = localStorage.getItem('accesstoken');	// Get the token from local storage, must match the variable name given in login
+            const response = await fetch(`${API_HOST_URL}/cars/info/${carId}`, {
+                method: 'GET',
+                headers: { 'Authorization': `Bearer ${token}` , 'Content-Type': 'application/json' },
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setCars(data);
+            setLoading(false);
+            } catch (err) {
+            setError(err);
+            setLoading(false);
+            }
+        };
+    
+        fetchData();
+        }, [`${API_HOST_URL}/cars/mygarage`]);
+
+
     return (
         <div>
             
