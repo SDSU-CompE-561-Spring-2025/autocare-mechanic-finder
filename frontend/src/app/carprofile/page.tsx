@@ -10,8 +10,8 @@ export default function CarProfile() {
 
     return(
         <div className="flex flex-col justify-center items-center h-screen min-h-fit overflow-auto w-screen">
-            <div className="min-h-fit overflow-auto w-[40%] min-w-fit">
-                <div className="ml-1 mb-1 text-white font-bold text-xl w-auto flex justify-between items-end">
+            <div className="w-[40%] min-w-fit">
+                <div className="ml-1 mb-2 text-white font-bold text-xl w-auto flex justify-between items-end">
                     Car Profile
                     <EditCarButton/>
                 </div>
@@ -20,10 +20,11 @@ export default function CarProfile() {
                     <CarsInfo />
                     </div>
                 </div>
-                <footer className= "flex-col m-2 justify-end px-5 bg-[#C4C4C4] text-black rounded-xl w-[37%] h-[15%] min-h-12 flex justify-between items-center">
-                <p className = "flex justify-between m-2 margin bottom bg-white rounded-xl p-4 py-5 mb-2 flex-1 overflow-auto">
-                    <Button variant="outline" className="mr-20 mb-auto"><Link href="/car-parts">Find Auto Parts</Link></Button>
-                    <Button variant="outline" className="ml-50"><Link href="/AutoshopFinderPage">Car Search</Link></Button></p>
+                <footer className= "flex flex-col w-full h-fit justify-center items-center">
+                <p className = "flex w-full justify-between mt-2 rounded-xl">
+                    <Button aschild className="px-4 bg-[#738678] cursor-pointer text-lg font-bold hover:bg-[#7ba686]"><Link href="/car-parts">Find Auto Parts</Link></Button>
+                    <Button aschild className="px-4 bg-[#738678] cursor-pointer text-lg font-bold hover:bg-[#7ba686]"><Link href="/AutoshopFinderPage">Car Search</Link></Button>
+                    <Button aschild className="px-4 bg-[#738678] cursor-pointer text-lg font-bold hover:bg-[#7ba686]"><Link href="/dashboard">Dashboard</Link></Button></p>
                 </footer>
         </div>
         </div>
