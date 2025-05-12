@@ -23,7 +23,7 @@ export default function CarProfile() {
                 <footer className= "flex flex-col w-full h-fit justify-center items-center">
                 <p className = "flex w-full justify-between mt-2 rounded-xl">
                     <Button aschild className="px-4 bg-[#738678] cursor-pointer text-lg font-bold hover:bg-[#7ba686]"><Link href="/car-parts">Find Auto Parts</Link></Button>
-                    <Button aschild className="px-4 bg-[#738678] cursor-pointer text-lg font-bold hover:bg-[#7ba686]"><Link href="/AutoshopFinderPage">Car Search</Link></Button>
+                    <Button aschild className="px-4 bg-[#738678] cursor-pointer text-lg font-bold hover:bg-[#7ba686]"><Link href="/AutoshopFinder">Car Search</Link></Button>
                     <Button aschild className="px-4 bg-[#738678] cursor-pointer text-lg font-bold hover:bg-[#7ba686]"><Link href="/dashboard">Dashboard</Link></Button></p>
                 </footer>
         </div>
