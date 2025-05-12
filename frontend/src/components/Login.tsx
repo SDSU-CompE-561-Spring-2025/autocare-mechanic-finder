@@ -27,7 +27,7 @@ const logSchema = z.object({
 		.min(5, { message: 'Username must be at least 5 characters' }),
 	password: z
 		.string()
-		.min(5, { message: 'Password must be at least 5 characters' }),
+		.min(8, { message: 'Password must be at least 8 characters' }),
 });
 
 
@@ -82,11 +82,11 @@ export default function Login() {
 					name="username"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel className='py-1'>Username</FormLabel>
+							<FormLabel className='py-1'>Username or Email</FormLabel>
 							<FormControl>
 								<Input
 									className='bg-white border-zinc-400 border-2'
-									placeholder="Username"
+									placeholder="Enter Username or Email"
 									{...field}
 								/>
 							</FormControl>
@@ -104,7 +104,7 @@ export default function Login() {
 								<Input
 									type={'password'}
 									className='bg-white border-zinc-400 border-2'
-									placeholder="password"
+									placeholder="Enter Password"
 									{...field}
 								/>
 							</FormControl>
