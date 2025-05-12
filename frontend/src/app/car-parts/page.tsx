@@ -2,14 +2,11 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import MenuButton from '../../components/ui/MenuButton';
-import Sidebar from '../../components/ui/SideBar';
 import SearchForm from '../../components/ui/SearchForm';
 import SearchResultCard from '../../components/ui/SearchResultCard';
 import TutorialButton from '../../components/ui/TutorialButton';
 
 export default function CarPartsPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [year, setYear] = useState('');
   const [make, setMake] = useState('');
   const [model, setModel] = useState('');
@@ -44,14 +41,8 @@ export default function CarPartsPage() {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center relative"
-      
+      className="h-screen"
     >
-      {/* Sidebar passes close-only function */}
-      <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(false)} />
-
-      {/* Top-left toggle button */}
-      <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
 
       <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="p-8 rounded-lg w-full max-w-3xl" style={{ backgroundColor: '#C4C4C4' }}>
