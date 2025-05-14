@@ -67,7 +67,7 @@ const NearbyAutoShopsMap = () => {
 
     setDebounceTimeout(
       setTimeout(() => {
-        if (newZipCode.length === 5 && isMapLoaded) {
+        if (newZipCode.length === 5) {
           console.log('setTimeout - Attempting find Location for:', newZipCode);
           findLocationFromZip(newZipCode);
         } else {
@@ -105,8 +105,9 @@ const NearbyAutoShopsMap = () => {
     (location: { lat: number; lng: number }) => {
       console.log('findAutoShops - Searching near:', location);
       if (!placesServiceRef.current) {
-        setError('Google Maps service not initialized.');
+        //setError('Google Maps service not initialized.');
         console.error('findAutoShops - PlacesService is null');
+        console.log('Places Service Ref: ' , placesServiceRef)
         return;
       }
 
@@ -177,6 +178,7 @@ const NearbyAutoShopsMap = () => {
           style={{
             padding: '8px',
             borderRadius: '4px',
+            background: 'white',
             color: 'black',
           }}
         />
