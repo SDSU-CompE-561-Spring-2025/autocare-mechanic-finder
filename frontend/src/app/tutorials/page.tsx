@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import MenuButton from '../components/ui/MenuButton';
-import Sidebar from '../components/ui/SideBar';
 
 export default function TutorialsPage() {
   const youtubeLinks = [
@@ -13,36 +11,15 @@ export default function TutorialsPage() {
   ];
 
   const [selectedVideoId, setSelectedVideoId] = useState('');
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Listen for custom closeMenu events
-  useEffect(() => {
-    const handleCloseMenu = () => setMenuOpen(false);
-    window.addEventListener('closeMenu', handleCloseMenu);
-    return () => window.removeEventListener('closeMenu', handleCloseMenu);
-  }, []);
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center relative"
-      style={{ backgroundImage: 'url(/images/RoadSurface.jpg)' }}
-    >
-      {/* Sidebar + Menu button */}
-      <Sidebar menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
-      <MenuButton menuOpen={menuOpen} toggleMenu={() => setMenuOpen(!menuOpen)} />
-
+    <div className="h-screen">
       <div className="flex flex-col items-center justify-center min-h-screen">
         <div className="p-8 rounded-lg w-full max-w-3xl" style={{ backgroundColor: '#C4C4C4' }}>
           
           {/* Title with logo */}
           <div className="flex items-center justify-center mb-4">
             <h1 className="text-3xl font-bold mr-2 text-black">My Car Care</h1>
-            <Image
-              src="/images/MyCarCare_Trimmed.png"
-              alt="My Car Care Logo"
-              width={50}
-              height={50}
-            />
           </div>
 
           {/* YouTube links section */}

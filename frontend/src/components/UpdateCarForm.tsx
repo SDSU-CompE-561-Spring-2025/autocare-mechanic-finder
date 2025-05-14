@@ -29,18 +29,13 @@ export default function UpdateCarForm() {
 	// 1. Define your form.
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
-		defaultValues: {
-			trim: '',
-			LastOilChange: '',
-			AirFilter: '',
-		},
 	});
 
 	const [submissionStatus, setStatus] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successful, isSuccessful] = useState(false);
 	const params = useSearchParams();
-	const carId = params.get('car_id'); // Get the carId from the URL
+	const carId = params.get('carid'); // Get the carId from the URL
 
 	// 2. Define a submit handler.
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -147,7 +142,7 @@ export default function UpdateCarForm() {
 					<Button type="submit" className="py-6 px-9.5 bg-[#738678] rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-[#7ba686] mr-3">
 						{isLoading ? 'Loading...' : 'Submit'}</Button>
 					<Button asChild className="py-6 px-12.5 bg-zinc-600 rounded-xl cursor-pointer text-xl font-bold text-white hover:bg-zinc-500">
-						<Link href={`/carupdate?car_id=${carId}`}>Back</Link>
+						<Link href={`/carprofile?carid=${carId}`}>Back</Link>
 					</Button>
 				</div>
 				<div className={successful ? "flex justify-center text-xl font-bold text-green-600 mt-2" : "flex justify-center text-xl font-bold text-red-600 mt-2"}>

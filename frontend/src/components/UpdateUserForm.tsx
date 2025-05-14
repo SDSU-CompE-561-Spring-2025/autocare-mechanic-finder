@@ -20,11 +20,11 @@ import Link from 'next/link';
 
 const formSchema = z.object({
 	state: z.string().optional(),
-  change_password: z.boolean(),
-  new_password: z.string().optional(),
-	current_password: z.string().min(1, {
-		message: 'You must enter your current password',
-	}),
+	update_password: z.boolean(),
+	new_password: z.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, 
+		{message: "Password must contain: 1 lowercase letter, 1 uppercase letter, 1 number, 1 of the following symbols: #?!@$%^&*- and have a minimum of 8 characters"}),
+	current_password: z.string().min(1, 
+		{message: 'You must enter your current password',}),
 });
 
 export default function UpdateUserForm() {
@@ -33,20 +33,21 @@ export default function UpdateUserForm() {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			state: '',
-      change_password: false,
-      new_password: '',
-      current_password: '',
-
+			update_password: false,
+			new_password: '',
+			current_password: '',
 		},
 	});
 
-	const isChecked = form.watch('change_password');
+	const isChecked = form.watch('update_password');
+	const currentPassChange = isChecked? '' : form.setValue('new_password', form.watch('current_password'));
 	const [submissionStatus, setStatus] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 	const [successful, isSuccessful] = useState(false);
 
 	// 2. Define a submit handler.
 	const onSubmit = async (data: z.infer<typeof formSchema>) => {
+		console.log(data);
 		setIsLoading(true);
 		try{
 			const token = localStorage.getItem('accesstoken');	// Get the token from local storage, must match the variable name given in login
@@ -95,7 +96,7 @@ export default function UpdateUserForm() {
 				/>
 			<FormField
 			control={form.control}
-			name="change_password"
+			name="update_password"
 			render={({ field }) => (
 				<FormItem className="flex space-x-1 mb-4">
 				<div>
@@ -107,7 +108,7 @@ export default function UpdateUserForm() {
 				</div>
 				<FormControl>
 					<Checkbox
-					className='size-7 cursor-pointer hover:bg-[#738678] bg-white transition-all duration-300'
+					className='size-7 cursor-pointer hover:bg-[#738678] bg-white transition-all duration-300 border-2 border-zinc-500'
 					checked={field.value}
 					onCheckedChange={field.onChange}
 					/>
@@ -119,13 +120,13 @@ export default function UpdateUserForm() {
 					control={form.control}
 					name="new_password"
 					render={({ field }) => (
-						<FormItem className={isChecked? 'unhidden' : 'hidden'}>
+						<FormItem className={isChecked? 'unhidden mb-4' : 'hidden'}>
 							<FormLabel>New Password:</FormLabel>
 							<FormControl>
 								<Input
 									type={'password'}
 									placeholder="Enter your new password"
-									className='border-2 border-zinc-500 bg-white mb-4'
+									className='border-2 border-zinc-500 bg-white'
 									{...field}
 								/>
 							</FormControl>
@@ -144,6 +145,7 @@ export default function UpdateUserForm() {
 									type={'password'}
 									placeholder="Enter your current password"
 									className='border-2 border-zinc-500 bg-white mb-4'
+									currentPassChange={field.onChange}
 									{...field}
 								/>
 							</FormControl>

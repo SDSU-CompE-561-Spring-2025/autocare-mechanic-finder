@@ -30,7 +30,7 @@ function RegisterNewCar() {
     }
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accesstoken');
       if (!token) {
         setError('Authentication token is missing. Please log in.');
         return;
@@ -81,7 +81,6 @@ function RegisterNewCar() {
   return (
     <div
       style={{
-        background: `url('/images/bg2.png') center center / cover no-repeat`,
         minHeight: '100vh',
         display: 'flex',
         justifyContent: 'center',
@@ -109,12 +108,12 @@ function RegisterNewCar() {
             justifyContent: 'center',
           }}
         >
-          <h2 style={{ margin: 0, color: '#333', fontWeight: 'bold' }}>Register New Car</h2>
+          <h2 style={{ margin: 0, color: 'black', fontWeight: 'bold', fontSize: 20 }}>Register New Car</h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'auto auto auto', gap: '10px', marginBottom: '15px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'auto', gap: '10px', marginBottom: '15px' }}>
           <div>
-            <label htmlFor="year">Year:*</label>
+            <label htmlFor="year" style={{fontWeight: '500'}}>Year:*</label>
             <input
               type="text"
               id="year"
@@ -124,7 +123,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="make">Make:*</label>
+            <label htmlFor="make" style={{fontWeight: '500'}}>Make:*</label>
             <input
               type="text"
               id="make"
@@ -134,7 +133,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="model">Model:*</label>
+            <label htmlFor="model" style={{fontWeight: '500'}}>Model:*</label>
             <input
               type="text"
               id="model"
@@ -144,7 +143,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="trim">Trim: (Optional)</label>
+            <label htmlFor="trim" style={{fontWeight: '500'}}>Trim: (Optional)</label>
             <input
               type="text"
               id="trim"
@@ -154,7 +153,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="currentMileage">Current Mileage:</label>
+            <label htmlFor="currentMileage" style={{fontWeight: '500'}}>Current Mileage:</label>
             <input
               type="text"
               id="currentMileage"
@@ -164,7 +163,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="lastOilChange">Date of Last Oil Change:*</label>
+            <label htmlFor="lastOilChange" style={{fontWeight: '500'}}>Mileage of Last Oil Change:*</label>
             <input
               type="text"
               id="lastOilChange"
@@ -174,7 +173,7 @@ function RegisterNewCar() {
             />
           </div>
           <div>
-            <label htmlFor="lastAirFilterChange">Date of Last Air Filter Change:*</label>
+            <label htmlFor="lastAirFilterChange" style={{fontWeight: '500'}}>Mileage of Last Air Filter Change:*</label>
             <input
               type="text"
               id="lastAirFilterChange"
@@ -201,12 +200,7 @@ function RegisterNewCar() {
           >
             Add Car
           </button>
-          <button
-            onClick={handleCancel}
-            style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#d9534f', color: '#fff', cursor: 'pointer' }}
-          >
-            Cancel
-          </button>
+          <a style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#d9534f', color: '#fff', cursor: 'pointer' }} href="/dashboard">Cancel</a>
         </div>
       </div>
     </div>
@@ -217,7 +211,8 @@ const inputStyle = {
   width: '100%',
   padding: '8px',
   borderRadius: '5px',
-  border: '1px solid #ccc',
+  border: '2px solid #71717b',
+  background: 'white',
   boxSizing: 'border-box',
 };
 
